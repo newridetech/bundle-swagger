@@ -1,6 +1,6 @@
 <?php
 
-namespace Absolvent\swagger\app\Http\Middleware;
+namespace Absolvent\swagger\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
 
@@ -12,6 +12,5 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        //
     ];
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Absolvent\swagger\app\Http\Controllers;
+namespace Absolvent\swagger\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;

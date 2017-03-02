@@ -1,6 +1,6 @@
 <?php
 
-namespace Absolvent\swagger\app\Http\Middleware;
+namespace Absolvent\swagger\Http\Middleware;
 
 use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
 
@@ -12,6 +12,5 @@ class EncryptCookies extends BaseEncrypter
      * @var array
      */
     protected $except = [
-        //
     ];
 }

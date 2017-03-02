@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger\app\Http\Controllers\Auth;
+namespace Absolvent\swagger\Http\Controllers\Auth;
 
-use Absolvent\swagger\app\Http\Controllers\Controller;
+use Absolvent\swagger\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -29,8 +29,6 @@ class LoginController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
