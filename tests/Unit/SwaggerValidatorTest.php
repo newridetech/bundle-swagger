@@ -12,8 +12,19 @@ class SwaggerValidatorTest extends TestCase
     public function provideRequestResponse()
     {
         yield [
-            Request::create('http://example.com/pet', 'GET'),
-            Response::create(json_encode([
+            'request' => Request::create('http://example.com/pet', 'GET'),
+            'response' => Response::create(json_encode([
+                [
+                    'pet_id' => 1,
+                    'pet_name' => 'test',
+                ],
+            ]), 200),
+            'shouldBeValid' => true,
+        ];
+
+        yield [
+            'request' => Request::create('http://example.com/pet', 'GET'),
+            'response' => Response::create(json_encode([
                 [
                     'pet_id' => 1,
                     'pet_name' => 'test',
@@ -23,25 +34,13 @@ class SwaggerValidatorTest extends TestCase
                     'pet_namez' => 'bar',
                 ],
             ]), 200),
-            $shouldBeValid = false,
+            'shouldBeValid' => false,
         ];
     }
 
-    public function testThatFixtureExsits(): string
+    public function testThatJsonSchemaValidatorIsCreated(): SwaggerValidator
     {
-        $filename = base_path('fixtures/petstore.yml');
-
-        $this->assertFileExists($filename);
-
-        return $filename;
-    }
-
-    /**
-     * @depends testThatFixtureExsits
-     */
-    public function testThatJsonSchemaValidatorIsCreated(string $filename): SwaggerValidator
-    {
-        return SwaggerValidator::fromFilename($filename);
+        return SwaggerValidator::fromFilename(base_path('fixtures/petstore.yml'));
     }
 
     /**
