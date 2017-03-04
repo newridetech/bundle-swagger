@@ -11,16 +11,16 @@ class SwaggerValidatorTest extends TestCase
 {
     public function provideRequestResponse()
     {
-        yield [
-            'request' => Request::create('http://example.com/pet', 'GET'),
-            'response' => Response::create(json_encode([
-                [
-                    'pet_id' => 1,
-                    'pet_name' => 'test',
-                ],
-            ]), 200),
-            'shouldBeValid' => true,
-        ];
+        // yield [
+        //     'request' => Request::create('http://example.com/pet', 'GET'),
+        //     'response' => Response::create(json_encode([
+        //         [
+        //             'pet_id' => 1,
+        //             'pet_name' => 'test',
+        //         ],
+        //     ]), 200),
+        //     'shouldBeValid' => true,
+        // ];
 
         yield [
             'request' => Request::create('http://example.com/pet', 'GET'),

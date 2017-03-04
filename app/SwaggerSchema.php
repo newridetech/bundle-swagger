@@ -63,6 +63,7 @@ class SwaggerSchema extends Data
         $breadcrumbs = $this->findRequestMethodBreadcrumbsByHttpRequest($request);
         $breadcrumbs->breadcrumbs[] = 'responses';
         $breadcrumbs->breadcrumbs[] = $response->getStatusCode();
+        $breadcrumbs->breadcrumbs[] = 'schema';
 
         return $breadcrumbs;
     }
