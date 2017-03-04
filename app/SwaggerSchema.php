@@ -52,7 +52,7 @@ class SwaggerSchema extends Data
         $breadcrumbs = $this->findRequestMethodBreadcrumbsByHttpRequest($request);
 
         if (!$this->has($breadcrumbs)) {
-            throw new Method($breadcrumbs);
+            throw new Method($breadcrumbs, $this->findRequestPathSchemaByHttpRequest($request));
         }
 
         return $this->get($breadcrumbs);
@@ -73,7 +73,7 @@ class SwaggerSchema extends Data
         $breadcrumbs = $this->findResponsePathBreadcrumbsByHttpResponse($request, $response);
 
         if (!$this->has($breadcrumbs)) {
-            throw new StatusCode($breadcrumbs);
+            throw new StatusCode($breadcrumbs, $this->findRequestMethodSchemaByHttpRequest($request));
         }
 
         return $this->get($breadcrumbs);
