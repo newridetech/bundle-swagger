@@ -81,7 +81,7 @@ class SwaggerSchema extends Data
     /**
      * {@inheritDoc}
      */
-    public function get($key, $default = null)
+    public function get($key, $default = null): stdClass
     {
         $ret = parent::get($key, $default);
         $ret = json_decode(json_encode($ret));
