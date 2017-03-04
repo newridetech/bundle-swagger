@@ -2,61 +2,79 @@
 
 namespace Absolvent\swagger;
 
+use Absolvent\swagger\Exception\SchemaPartNotFound\Method;
+use Absolvent\swagger\Exception\SchemaPartNotFound\Path;
+use Absolvent\swagger\Exception\SchemaPartNotFound\StatusCode;
+use Dflydev\DotAccessData\Data;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Yaml;
 
-class SwaggerSchema
+class SwaggerSchema extends Data
 {
-    public $schema;
-
     public static function fromFilename($filename): SwaggerSchema
     {
         $schema = Yaml::parse(file_get_contents($filename));
-        $schema = json_decode(json_encode($schema));
 
         return new static($schema);
     }
 
-    public function __construct(stdClass $schema)
+    public function findRequestPathBreadcrumbsByHttpRequest(Request $request): Breadcrumbs
     {
-        $this->schema = $schema;
-    }
-
-    public function findRequestMethodSchemaByHttpRequest(Request $request): stdClass
-    {
-        $pathSchema = $this->findRequestPathSchemaByHttpRequest($request);
-        $method = strtolower($request->getMethod());
-
-        if (!isset($pathSchema->{$method})) {
-            throw MethodNotFound::fromRequest($request);
-        }
-
-        return $pathSchema->{$method};
+        return new Breadcrumbs([
+            'paths',
+            $request->getPathInfo(),
+        ]);
     }
 
     public function findRequestPathSchemaByHttpRequest(Request $request): stdClass
     {
-        $pathInfo = $request->getPathInfo();
-        $pathsSchema = $this->schema->paths;
+        $breadcrumbs = $this->findRequestPathBreadcrumbsByHttpRequest($request);
 
-        if (!isset($pathsSchema->{$pathInfo})) {
-            throw PathNotFound::fromRequest($request);
+        if (!$this->has($breadcrumbs)) {
+            throw new Path($breadcrumbs);
         }
 
-        return $pathsSchema->{$pathInfo};
+        return $this->get($breadcrumbs);
+    }
+
+    public function findRequestMethodBreadcrumbsByHttpRequest(Request $request): Breadcrumbs
+    {
+        $breadcrumbs = $this->findRequestPathBreadcrumbsByHttpRequest($request);
+        $breadcrumbs->breadcrumbs[] = strtolower($request->getMethod());
+
+        return $breadcrumbs;
+    }
+
+    public function findRequestMethodSchemaByHttpRequest(Request $request): stdClass
+    {
+        $breadcrumbs = $this->findRequestMethodBreadcrumbsByHttpRequest($request);
+
+        if (!$this->has($breadcrumbs)) {
+            throw new Method($breadcrumbs);
+        }
+
+        return $this->get($breadcrumbs);
+    }
+
+    public function findResponsePathBreadcrumbsByHttpResponse(Request $request, Response $response): Breadcrumbs
+    {
+        $breadcrumbs = $this->findRequestMethodBreadcrumbsByHttpRequest($request);
+        $breadcrumbs->breadcrumbs[] = 'responses';
+        $breadcrumbs->breadcrumbs[] = $response->getStatusCode();
+
+        return $breadcrumbs;
     }
 
     public function findResponseSchemaByHttpResponse(Request $request, Response $response): stdClass
     {
-        $responsesSchema = $this->findRequestMethodSchemaByHttpRequest($request)->responses;
-        $statusCode = $response->getStatusCode();
+        $breadcrumbs = $this->findResponsePathBreadcrumbsByHttpResponse($request, $response);
 
-        if (!isset($responsesSchema->{$statusCode})) {
-            throw StatusCodeNotFound::fromResponse($request, $response);
+        if (!$this->has($breadcrumbs)) {
+            throw new StatusCode($breadcrumbs);
         }
 
-        return $responsesSchema->{$statusCode}->schema;
+        return $this->get($breadcrumbs);
     }
 }

@@ -2,21 +2,16 @@
 
 namespace Absolvent\swagger\Exception;
 
+use Absolvent\swagger\Breadcrumbs;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class SchemaPartNotFound extends BadRequestHttpException
 {
     public $breadcrumbs;
 
-    public function __construct(array $breadcrumbs)
+    public function __construct(Breadcrumbs $breadcrumbs)
     {
-        parent::__construct();
-
         $this->breadcrumbs = $breadcrumbs;
-    }
-
-    public function getBreadcrumbsPath(): string
-    {
-        return implode('.', $this->breadcrumbs);
+        $this->message = strval($breadcrumbs);
     }
 }

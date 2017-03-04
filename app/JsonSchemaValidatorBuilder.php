@@ -22,10 +22,10 @@ class JsonSchemaValidatorBuilder
     public function createJsonSchemaStorage(): SchemaStorage
     {
         $schemaStorage = new SchemaStorage();
-        $schemaStorage->addSchema(
-            'file://definitions',
-            $this->swaggerSchema->schema->definitions
-        );
+        // $schemaStorage->addSchema(
+        //     'file://definitions',
+        //     $this->swaggerSchema->schema->definitions
+        // );
 
         return $schemaStorage;
     }
