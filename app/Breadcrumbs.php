@@ -11,7 +11,7 @@ class Breadcrumbs
         $this->breadcrumbs = $breadcrumbs;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getBreadcrumbsPath();
     }
