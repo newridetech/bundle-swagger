@@ -19,7 +19,7 @@ class SwaggerSchemaTest extends TestCase
      */
     public function testThatRequestMethodSchemaIsFound(SwaggerSchema $swaggerSchema)
     {
-        $request = Request::create('http://example.com/pet', 'GET');
+        $request = Request::create('http://example.com/api/pet', 'GET');
         $schema = $swaggerSchema->findRequestMethodSchemaByHttpRequest($request);
         $this->assertObjectHasAttribute('description', $schema);
         $this->assertObjectHasAttribute('produces', $schema);
@@ -31,7 +31,7 @@ class SwaggerSchemaTest extends TestCase
      */
     public function testThatRequestPathSchemaIsFound(SwaggerSchema $swaggerSchema)
     {
-        $request = Request::create('http://example.com/pet', 'GET');
+        $request = Request::create('http://example.com/api/pet', 'GET');
         $schema = $swaggerSchema->findRequestPathSchemaByHttpRequest($request);
         $this->assertObjectHasAttribute('get', $schema);
     }
@@ -41,7 +41,7 @@ class SwaggerSchemaTest extends TestCase
      */
     public function testThatResponseSchemaIsFound(SwaggerSchema $swaggerSchema)
     {
-        $request = Request::create('http://example.com/pet', 'GET');
+        $request = Request::create('http://example.com/api/pet', 'GET');
         $response = Response::create(json_encode([
             [
                 'pet_id' => 1,
@@ -60,7 +60,7 @@ class SwaggerSchemaTest extends TestCase
      */
     public function testThatMissingPathIsHandled(SwaggerSchema $swaggerSchema)
     {
-        $request = Request::create('http://example.com/animal', 'GET');
+        $request = Request::create('http://example.com/api/animal', 'GET');
         $response = Response::create('', 200);
         $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
     }
@@ -71,7 +71,7 @@ class SwaggerSchemaTest extends TestCase
      */
     public function testThatMissingMethodIsHandled(SwaggerSchema $swaggerSchema)
     {
-        $request = Request::create('http://example.com/pet', 'POST');
+        $request = Request::create('http://example.com/api/pet', 'POST');
         $response = Response::create('', 200);
         $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
     }
@@ -82,7 +82,7 @@ class SwaggerSchemaTest extends TestCase
      */
     public function testThatMissingStatusCodeIsHandled(SwaggerSchema $swaggerSchema)
     {
-        $request = Request::create('http://example.com/pet', 'GET');
+        $request = Request::create('http://example.com/api/pet', 'GET');
         $response = Response::create('', 123);
         $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
     }

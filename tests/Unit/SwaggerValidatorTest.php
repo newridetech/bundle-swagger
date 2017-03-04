@@ -11,9 +11,8 @@ class SwaggerValidatorTest extends TestCase
 {
     public function provideRequestResponse()
     {
-        // valid request-response
-        yield [
-            'request' => Request::create('http://example.com/pet', 'GET'),
+        yield 'valid request-response' => [
+            'request' => Request::create('http://example.com/api/pet', 'GET'),
             'response' => Response::create(json_encode([
                 [
                     'pet_id' => 1,
@@ -23,9 +22,8 @@ class SwaggerValidatorTest extends TestCase
             'shouldBeValid' => true,
         ];
 
-        // extra field
-        yield [
-            'request' => Request::create('http://example.com/pet', 'GET'),
+        yield 'extra field' => [
+            'request' => Request::create('http://example.com/api/pet', 'GET'),
             'response' => Response::create(json_encode([
                 [
                     'pet_id' => 2,
@@ -35,9 +33,8 @@ class SwaggerValidatorTest extends TestCase
             'shouldBeValid' => false,
         ];
 
-        // type coercion
-        yield [
-            'request' => Request::create('http://example.com/pet', 'GET'),
+        yield 'type coercion' => [
+            'request' => Request::create('http://example.com/api/pet', 'GET'),
             'response' => Response::create(json_encode([
                 [
                     'pet_id' => '1',
@@ -49,6 +46,12 @@ class SwaggerValidatorTest extends TestCase
                 ],
             ]), 200),
             'shouldBeValid' => true,
+        ];
+
+        yield 'at least one item' => [
+            'request' => Request::create('http://example.com/api/pet', 'GET'),
+            'response' => Response::create(json_encode([]), 200),
+            'shouldBeValid' => false,
         ];
     }
 

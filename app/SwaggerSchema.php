@@ -24,7 +24,7 @@ class SwaggerSchema extends Data
     {
         return new Breadcrumbs([
             'paths',
-            $request->getPathInfo(),
+            new RelativePath(parent::get('basePath'), $request->getPathInfo()),
         ]);
     }
 
@@ -79,9 +79,6 @@ class SwaggerSchema extends Data
         return $this->get($breadcrumbs);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get($key, $default = null): stdClass
     {
         $ret = parent::get($key, $default);

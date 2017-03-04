@@ -29,6 +29,7 @@ paths:
             type: "array"
             items:
               $ref: "file://definitions#/Pet"
+            minItems: 1
 definitions:
   Pet:
     type: "object"
