@@ -2,6 +2,7 @@
 
 namespace Absolvent\swagger;
 
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
 use JsonSchema\Validator;
 
@@ -22,7 +23,7 @@ class JsonSchemaValidatorBuilder
     {
         $schemaStorage = $this->schemaStorageBuilder->createJsonSchemaStorage();
 
-        return new Factory($schemaStorage);
+        return new Factory($schemaStorage, null, Constraint::CHECK_MODE_COERCE_TYPES);
     }
 
     public function createJsonSchemaValidator(): Validator

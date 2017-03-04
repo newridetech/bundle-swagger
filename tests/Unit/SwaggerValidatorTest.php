@@ -11,17 +11,7 @@ class SwaggerValidatorTest extends TestCase
 {
     public function provideRequestResponse()
     {
-        // yield [
-        //     'request' => Request::create('http://example.com/pet', 'GET'),
-        //     'response' => Response::create(json_encode([
-        //         [
-        //             'pet_id' => 1,
-        //             'pet_name' => 'test',
-        //         ],
-        //     ]), 200),
-        //     'shouldBeValid' => true,
-        // ];
-
+        // valid request-response
         yield [
             'request' => Request::create('http://example.com/pet', 'GET'),
             'response' => Response::create(json_encode([
@@ -29,12 +19,36 @@ class SwaggerValidatorTest extends TestCase
                     'pet_id' => 1,
                     'pet_name' => 'test',
                 ],
+            ]), 200),
+            'shouldBeValid' => true,
+        ];
+
+        // extra field
+        yield [
+            'request' => Request::create('http://example.com/pet', 'GET'),
+            'response' => Response::create(json_encode([
                 [
                     'pet_id' => 2,
                     'pet_namez' => 'bar',
                 ],
             ]), 200),
             'shouldBeValid' => false,
+        ];
+
+        // type coercion
+        yield [
+            'request' => Request::create('http://example.com/pet', 'GET'),
+            'response' => Response::create(json_encode([
+                [
+                    'pet_id' => '1',
+                    'pet_name' => 'test',
+                ],
+                [
+                    'pet_id' => '2',
+                    'pet_name' => 'bar',
+                ],
+            ]), 200),
+            'shouldBeValid' => true,
         ];
     }
 
