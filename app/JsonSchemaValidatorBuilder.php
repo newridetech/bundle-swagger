@@ -3,7 +3,6 @@
 namespace Absolvent\swagger;
 
 use JsonSchema\Constraints\Factory;
-use JsonSchema\SchemaStorage;
 use JsonSchema\Validator;
 
 /**
@@ -12,27 +11,16 @@ use JsonSchema\Validator;
  */
 class JsonSchemaValidatorBuilder
 {
-    public $swaggerSchema;
+    public $schemaStorageBuilder;
 
     public function __construct(SwaggerSchema $swaggerSchema)
     {
-        $this->swaggerSchema = $swaggerSchema;
-    }
-
-    public function createJsonSchemaStorage(): SchemaStorage
-    {
-        $schemaStorage = new SchemaStorage();
-        // $schemaStorage->addSchema(
-        //     'file://definitions',
-        //     $this->swaggerSchema->schema->definitions
-        // );
-
-        return $schemaStorage;
+        $this->schemaStorageBuilder = new SchemaStorageBuilder($swaggerSchema);
     }
 
     public function createJsonSchemaFactory(): Factory
     {
-        $schemaStorage = $this->createJsonSchemaStorage();
+        $schemaStorage = $this->schemaStorageBuilder->createJsonSchemaStorage();
 
         return new Factory($schemaStorage);
     }

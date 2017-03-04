@@ -79,7 +79,7 @@ class SwaggerSchema extends Data
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function get($key, $default = null): stdClass
     {
