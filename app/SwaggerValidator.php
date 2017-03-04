@@ -2,7 +2,6 @@
 
 namespace Absolvent\swagger;
 
-use JsonSchema\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,7 +21,7 @@ class SwaggerValidator
         $this->jsonSchemaValidatorBuilder = new JsonSchemaValidatorBuilder($schema);
     }
 
-    public function validateResponse(Request $request, Response $response): Validator
+    public function validateResponse(Request $request, Response $response): SwaggerValidationResult
     {
         $data = json_decode($response->getContent());
         $schema = $this->schema->findResponseSchemaByHttpResponse($request, $response);
@@ -33,6 +32,6 @@ class SwaggerValidator
         ;
         $validator->validate($data, $schema);
 
-        return $validator;
+        return new SwaggerValidationResult($validator);
     }
 }

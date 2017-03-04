@@ -62,7 +62,7 @@ class SwaggerSchemaTest extends TestCase
     {
         $request = Request::create('http://example.com/animal', 'GET');
         $response = Response::create('', 200);
-        $schema = $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
+        $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
     }
 
     /**
@@ -73,7 +73,7 @@ class SwaggerSchemaTest extends TestCase
     {
         $request = Request::create('http://example.com/pet', 'POST');
         $response = Response::create('', 200);
-        $schema = $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
+        $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
     }
 
     /**
@@ -84,6 +84,6 @@ class SwaggerSchemaTest extends TestCase
     {
         $request = Request::create('http://example.com/pet', 'GET');
         $response = Response::create('', 123);
-        $schema = $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
+        $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
     }
 }
