@@ -1,17 +1,20 @@
 <?php
 
-namespace Absolvent\swagger\Exception;
+namespace Absolvent\swagger\Exception\SchemaPartNotFound;
 
+use Absolvent\swagger\Exception\SchemaPartNotFound;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-
-class StatusCodeNotFound extends SchemaPartNotFound
+class StatusCode extends SchemaPartNotFound
 {
-    public $responsesSchema;
-
-    public function __construct(stdClass $schema, stdClass $responsesSchema)
+    public static function fromResponse(Request $request, Response $response): StatusCode
     {
-        parent::__construct($schema);
-
-        $this->responsesSchema = $responsesSchema;
+        return new self([
+            'paths',
+            $request->getPathInfo(),
+            strtolower($request->getMethod()),
+            $response->getStatusCode(),
+        ]);
     }
 }

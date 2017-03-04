@@ -30,7 +30,7 @@ class SwaggerSchema
         $method = strtolower($request->getMethod());
 
         if (!isset($pathSchema->{$method})) {
-            throw new MethodNotFound($this->schema, $pathSchema);
+            throw MethodNotFound::fromRequest($request);
         }
 
         return $pathSchema->{$method};
@@ -42,7 +42,7 @@ class SwaggerSchema
         $pathsSchema = $this->schema->paths;
 
         if (!isset($pathsSchema->{$pathInfo})) {
-            throw new PathNotFound($this->schema, $pathsSchema);
+            throw PathNotFound::fromRequest($request);
         }
 
         return $pathsSchema->{$pathInfo};
@@ -54,7 +54,7 @@ class SwaggerSchema
         $statusCode = $response->getStatusCode();
 
         if (!isset($responsesSchema->{$statusCode})) {
-            throw new StatusCodeNotFound($this->schema, $responsesSchema);
+            throw StatusCodeNotFound::fromResponse($request, $response);
         }
 
         return $responsesSchema->{$statusCode}->schema;

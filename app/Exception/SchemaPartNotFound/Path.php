@@ -1,17 +1,17 @@
 <?php
 
-namespace Absolvent\swagger\Exception;
+namespace Absolvent\swagger\Exception\SchemaPartNotFound;
 
-use stdClass;
+use Absolvent\swagger\Exception\SchemaPartNotFound;
+use Symfony\Component\HttpFoundation\Request;
 
-class PathNotFound extends SchemaPartNotFound
+class Path extends SchemaPartNotFound
 {
-    public $pathsSchema;
-
-    public function __construct(stdClass $schema, stdClass $pathsSchema)
+    public static function fromRequest(Request $request): Path
     {
-        parent::__construct($schema);
-
-        $this->pathsSchema = $pathsSchema;
+        return new self([
+            'paths',
+            $request->getPathInfo(),
+        ]);
     }
 }
