@@ -2,6 +2,9 @@
 
 namespace Absolvent\swagger;
 
+use Absolvent\swagger\Breadcrumbs\RequestPath as RequestPathBreadcrumbs;
+use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
+use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod\ResponsePath as ResponsePathBreadcrumbs;
 use Absolvent\swagger\Exception\SchemaPartNotFound\Method;
 use Absolvent\swagger\Exception\SchemaPartNotFound\Path;
 use Absolvent\swagger\Exception\SchemaPartNotFound\StatusCode;
@@ -20,9 +23,9 @@ class SwaggerSchema extends Data
         return new static($schema);
     }
 
-    public function findRequestPathBreadcrumbsByHttpRequest(Request $request): Breadcrumbs
+    public function findRequestPathBreadcrumbsByHttpRequest(Request $request): RequestPathBreadcrumbs
     {
-        return new Breadcrumbs([
+        return new RequestPathBreadcrumbs([
             'paths',
             new RelativePath(parent::get('basePath'), $request->getPathInfo()),
         ]);
@@ -39,9 +42,10 @@ class SwaggerSchema extends Data
         return $this->get($breadcrumbs);
     }
 
-    public function findRequestMethodBreadcrumbsByHttpRequest(Request $request): Breadcrumbs
+    public function findRequestMethodBreadcrumbsByHttpRequest(Request $request): RequestMethodBreadcrumbs
     {
         $breadcrumbs = $this->findRequestPathBreadcrumbsByHttpRequest($request);
+        $breadcrumbs = RequestMethodBreadcrumbs::fromBreadcrumbs($breadcrumbs);
         $breadcrumbs->breadcrumbs[] = strtolower($request->getMethod());
 
         return $breadcrumbs;
@@ -58,9 +62,10 @@ class SwaggerSchema extends Data
         return $this->get($breadcrumbs);
     }
 
-    public function findResponsePathBreadcrumbsByHttpResponse(Request $request, Response $response): Breadcrumbs
+    public function findResponsePathBreadcrumbsByHttpResponse(Request $request, Response $response): ResponsePathBreadcrumbs
     {
         $breadcrumbs = $this->findRequestMethodBreadcrumbsByHttpRequest($request);
+        $breadcrumbs = ResponsePathBreadcrumbs::fromBreadcrumbs($breadcrumbs);
         $breadcrumbs->breadcrumbs[] = 'responses';
         $breadcrumbs->breadcrumbs[] = $response->getStatusCode();
         $breadcrumbs->breadcrumbs[] = 'schema';
