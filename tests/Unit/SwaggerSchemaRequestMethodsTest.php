@@ -6,8 +6,6 @@ use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBrea
 use Absolvent\swagger\SwaggerSchema;
 use Absolvent\swagger\SwaggerSchemaRequestMethods;
 use Absolvent\swagger\tests\TestCase;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class SwaggerSchemaRequestMethodsTest extends TestCase
 {
