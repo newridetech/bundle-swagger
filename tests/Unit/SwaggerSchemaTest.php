@@ -17,6 +17,14 @@ class SwaggerSchemaTest extends TestCase
     /**
      * @depends testThatSwaggerSchemaIsCreated
      */
+    public function testThatBasePathIsFetched(SwaggerSchema $swaggerSchema)
+    {
+        $this->assertEquals('/api', $swaggerSchema->get('basePath'));
+    }
+
+    /**
+     * @depends testThatSwaggerSchemaIsCreated
+     */
     public function testThatRequestMethodSchemaIsFound(SwaggerSchema $swaggerSchema)
     {
         $request = Request::create('http://example.com/api/pet', 'GET');
