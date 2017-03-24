@@ -12,6 +12,7 @@ class SwaggerValidatorTest extends TestCase
     public function provideRequestResponse()
     {
         yield 'valid request-response' => [
+            'fixtureFilename' => 'fixtures/petstore.yml',
             'request' => Request::create('http://example.com/api/pet', 'GET'),
             'response' => Response::create(json_encode([
                 [
@@ -23,6 +24,7 @@ class SwaggerValidatorTest extends TestCase
         ];
 
         yield 'extra field' => [
+            'fixtureFilename' => 'fixtures/petstore.yml',
             'request' => Request::create('http://example.com/api/pet', 'GET'),
             'response' => Response::create(json_encode([
                 [
@@ -34,6 +36,7 @@ class SwaggerValidatorTest extends TestCase
         ];
 
         yield 'type coercion' => [
+            'fixtureFilename' => 'fixtures/petstore.yml',
             'request' => Request::create('http://example.com/api/pet', 'GET'),
             'response' => Response::create(json_encode([
                 [
@@ -49,23 +52,19 @@ class SwaggerValidatorTest extends TestCase
         ];
 
         yield 'at least one item' => [
+            'fixtureFilename' => 'fixtures/petstore.yml',
             'request' => Request::create('http://example.com/api/pet', 'GET'),
             'response' => Response::create(json_encode([]), 200),
             'shouldBeValid' => false,
         ];
     }
 
-    public function testThatJsonSchemaValidatorIsCreated(): SwaggerValidator
-    {
-        return SwaggerValidator::fromFilename(base_path('fixtures/petstore.yml'));
-    }
-
     /**
      * @dataProvider provideRequestResponse
-     * @depends testThatJsonSchemaValidatorIsCreated
      */
-    public function testThatDataIsValidated(Request $request, Response $response, bool $shouldBeValid, SwaggerValidator $swaggerValidator)
+    public function testThatDataIsValidated(string $fixtureFilename, Request $request, Response $response, bool $shouldBeValid)
     {
+        $swaggerValidator = SwaggerValidator::fromFilename(base_path($fixtureFilename));
         $validator = $swaggerValidator->validateResponse($request, $response);
         $this->assertSame(
             $shouldBeValid,
