@@ -70,7 +70,7 @@ class SwaggerValidatorTest extends TestCase
         $this->assertSame(
             $shouldBeValid,
             $validator->isValid(),
-            json_encode($validator->getErrors(), JSON_PRETTY_PRINT)
+            $validator->getException()->getMessage()
         );
     }
 }
