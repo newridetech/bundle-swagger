@@ -5,7 +5,9 @@ namespace Absolvent\swagger;
 use Absolvent\swagger\Breadcrumbs\RequestPath as RequestPathBreadcrumbs;
 use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
 use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod\ResponsePath as ResponsePathBreadcrumbs;
+use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod\Requestparameters as RequestparametersBreadcrumbs;
 use Absolvent\swagger\Exception\SchemaPartNotFound\Method;
+use Absolvent\swagger\Exception\SchemaPartNotFound\Parameters;
 use Absolvent\swagger\Exception\SchemaPartNotFound\Path;
 use Absolvent\swagger\Exception\SchemaPartNotFound\StatusCode;
 use Dflydev\DotAccessData\Data;
@@ -57,6 +59,26 @@ class SwaggerSchema extends Data
 
         if (!$this->has($breadcrumbs)) {
             throw new Method($breadcrumbs, $this->findRequestPathSchemaByHttpRequest($request));
+        }
+
+        return $this->get($breadcrumbs);
+    }
+
+    public function findRequestParametersBreadcrumbsByHttpRequest(Request $request): RequestParametersBreadcrumbs
+    {
+        $breadcrumbs = $this->findRequestMethodBreadcrumbsByHttpRequest($request);
+        $breadcrumbs = RequestparametersBreadcrumbs::fromBreadcrumbs($breadcrumbs);
+        $breadcrumbs->breadcrumbs[] = 'parameters';
+
+        return $breadcrumbs;
+    }
+
+    public function findRequestParametersSchemaByHttpRequest(Request $request): array
+    {
+        $breadcrumbs = $this->findRequestParametersBreadcrumbsByHttpRequest($request);
+
+        if (!$this->has($breadcrumbs)) {
+            throw new Parameters($breadcrumbs, $this->findRequestMethodSchemaByHttpRequest($request));
         }
 
         return $this->get($breadcrumbs);

@@ -11,7 +11,7 @@ class SwaggerSchemaTest extends TestCase
 {
     public function testThatSwaggerSchemaIsCreated(): SwaggerSchema
     {
-        return SwaggerSchema::fromFilename(base_path('fixtures/petstore.yml'));
+        return SwaggerSchema::fromFilename(base_path('fixtures/petstore-expanded.yml'));
     }
 
     /**
@@ -27,10 +27,10 @@ class SwaggerSchemaTest extends TestCase
      */
     public function testThatRequestMethodSchemaIsFound(SwaggerSchema $swaggerSchema)
     {
-        $request = Request::create('http://example.com/api/pet', 'GET');
+        $request = Request::create('http://example.com/api/pets', 'GET');
         $schema = $swaggerSchema->findRequestMethodSchemaByHttpRequest($request);
         $this->assertObjectHasAttribute('description', $schema);
-        $this->assertObjectHasAttribute('produces', $schema);
+        $this->assertObjectHasAttribute('operationId', $schema);
         $this->assertObjectHasAttribute('responses', $schema);
     }
 
@@ -39,7 +39,7 @@ class SwaggerSchemaTest extends TestCase
      */
     public function testThatRequestPathSchemaIsFound(SwaggerSchema $swaggerSchema)
     {
-        $request = Request::create('http://example.com/api/pet', 'GET');
+        $request = Request::create('http://example.com/api/pets', 'GET');
         $schema = $swaggerSchema->findRequestPathSchemaByHttpRequest($request);
         $this->assertObjectHasAttribute('get', $schema);
     }
@@ -47,9 +47,22 @@ class SwaggerSchemaTest extends TestCase
     /**
      * @depends testThatSwaggerSchemaIsCreated
      */
+    public function testThatRequestParametersSchemaIsFound(SwaggerSchema $swaggerSchema)
+    {
+        $request = Request::create('http://example.com/api/pets', 'GET');
+        $schema = $swaggerSchema->findRequestParametersSchemaByHttpRequest($request);
+
+        $this->assertArrayHasKey(0, $schema);
+        $this->assertObjectHasAttribute('name', $schema[0]);
+        $this->assertObjectHasAttribute('description', $schema[0]);
+    }
+
+    /**
+     * @depends testThatSwaggerSchemaIsCreated
+     */
     public function testThatResponseSchemaIsFound(SwaggerSchema $swaggerSchema)
     {
-        $request = Request::create('http://example.com/api/pet', 'GET');
+        $request = Request::create('http://example.com/api/pets', 'GET');
         $response = Response::create(json_encode([
             [
                 'pet_id' => 1,
@@ -79,9 +92,19 @@ class SwaggerSchemaTest extends TestCase
      */
     public function testThatMissingMethodIsHandled(SwaggerSchema $swaggerSchema)
     {
-        $request = Request::create('http://example.com/api/pet', 'POST');
+        $request = Request::create('http://example.com/api/pets', 'HEAD');
         $response = Response::create('', 200);
         $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
+    }
+
+    /**
+     * @depends testThatSwaggerSchemaIsCreated
+     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound\Parameters
+     */
+    public function testThatMissingParametersIsHandled(SwaggerSchema $swaggerSchema)
+    {
+        $request = Request::create('http://example.com/api/pet', 'GET');
+        $swaggerSchema->findRequestParametersSchemaByHttpRequest($request);
     }
 
     /**
@@ -90,7 +113,7 @@ class SwaggerSchemaTest extends TestCase
      */
     public function testThatMissingStatusCodeIsHandled(SwaggerSchema $swaggerSchema)
     {
-        $request = Request::create('http://example.com/api/pet', 'GET');
+        $request = Request::create('http://example.com/api/pets', 'GET');
         $response = Response::create('', 123);
         $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
     }

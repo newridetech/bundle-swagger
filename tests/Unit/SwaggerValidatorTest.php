@@ -14,30 +14,33 @@ class SwaggerValidatorTest extends TestCase
         yield 'valid request-response' => [
             'fixtureFilename' => 'fixtures/petstore.yml',
             'request' => Request::create('http://example.com/api/pet', 'GET'),
+            'isRequestValid' => true,
             'response' => Response::create(json_encode([
                 [
                     'pet_id' => 1,
                     'pet_name' => 'test',
                 ],
             ]), 200),
-            'shouldBeValid' => true,
+            'isResponseValid' => true,
         ];
 
         yield 'extra field' => [
             'fixtureFilename' => 'fixtures/petstore.yml',
             'request' => Request::create('http://example.com/api/pet', 'GET'),
+            'isRequestValid' => true,
             'response' => Response::create(json_encode([
                 [
                     'pet_id' => 2,
                     'pet_namez' => 'bar',
                 ],
             ]), 200),
-            'shouldBeValid' => false,
+            'isResponseValid' => false,
         ];
 
         yield 'type coercion' => [
             'fixtureFilename' => 'fixtures/petstore.yml',
             'request' => Request::create('http://example.com/api/pet', 'GET'),
+            'isRequestValid' => true,
             'response' => Response::create(json_encode([
                 [
                     'pet_id' => '1',
@@ -48,28 +51,63 @@ class SwaggerValidatorTest extends TestCase
                     'pet_name' => 'bar',
                 ],
             ]), 200),
-            'shouldBeValid' => true,
+            'isResponseValid' => true,
         ];
 
         yield 'at least one item' => [
             'fixtureFilename' => 'fixtures/petstore.yml',
             'request' => Request::create('http://example.com/api/pet', 'GET'),
+            'isRequestValid' => true,
             'response' => Response::create(json_encode([]), 200),
-            'shouldBeValid' => false,
+            'isResponseValid' => false,
+        ];
+
+        yield 'valid input parameters' => [
+            'fixtureFilename' => 'fixtures/petstore-expanded.yml',
+            'request' => Request::create('http://petstore.swagger.io/api/pets', 'GET', [
+                'tags' => 0,
+                'limit' => 0,
+            ]),
+            'isRequestValid' => true,
+            'response' => Response::create(json_encode([]), 200),
+            'isResponseValid' => true,
+        ];
+
+        yield 'invalid input parameters' => [
+            'fixtureFilename' => 'fixtures/petstore-expanded.yml',
+            'request' => Request::create('http://petstore.swagger.io/api/pets', 'GET', [
+                'latitude' => 'foo',
+                'longitude' => 'bar',
+            ]),
+            'isRequestValid' => false,
+            'response' => Response::create(json_encode([
+                'code' => 1,
+                'message' => 'some error',
+                'fields' => 'string fields',
+            ]), 500),
+            'isResponseValid' => true,
         ];
     }
 
     /**
      * @dataProvider provideRequestResponse
      */
-    public function testThatDataIsValidated(string $fixtureFilename, Request $request, Response $response, bool $shouldBeValid)
+    public function testThatDataIsValidated(string $fixtureFilename, Request $request, bool $isRequestValid, Response $response, bool $isResponseValid)
     {
         $swaggerValidator = SwaggerValidator::fromFilename(base_path($fixtureFilename));
-        $validator = $swaggerValidator->validateResponse($request, $response);
+
+        $requestValidator = $swaggerValidator->validateRequest($request);
         $this->assertSame(
-            $shouldBeValid,
-            $validator->isValid(),
-            $validator->getException()->getMessage()
+            $isRequestValid,
+            $requestValidator->isValid(),
+            $requestValidator->getException()->getMessage()
+        );
+
+        $responseValidator = $swaggerValidator->validateResponse($request, $response);
+        $this->assertSame(
+            $isResponseValid,
+            $responseValidator->isValid(),
+            $responseValidator->getException()->getMessage()
         );
     }
 }

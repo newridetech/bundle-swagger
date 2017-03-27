@@ -2,6 +2,7 @@
 
 namespace Absolvent\swagger;
 
+use stdClass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,11 +22,8 @@ class SwaggerValidator
         $this->jsonSchemaValidatorBuilder = new JsonSchemaValidatorBuilder($schema);
     }
 
-    public function validateResponse(Request $request, Response $response): SwaggerValidationResult
+    public function validateData(stdClass $data, stdClass $schema): SwaggerValidationResult
     {
-        $data = json_decode($response->getContent());
-        $schema = $this->schema->findResponseSchemaByHttpResponse($request, $response);
-
         $validator = $this
             ->jsonSchemaValidatorBuilder
             ->createJsonSchemaValidator()
@@ -33,5 +31,26 @@ class SwaggerValidator
         $validator->validate($data, $schema);
 
         return new SwaggerValidationResult($validator);
+    }
+
+    public function validateRequest(Request $request): SwaggerValidationResult
+    {
+        $breadcrumbs = $this->schema->findRequestParametersBreadcrumbsByHttpRequest($request);
+        if ($this->schema->has($breadcrumbs)) {
+            $schema = $this->schema->findRequestParametersSchemaByHttpRequest($request);
+        } else {
+            $schema = new stdClass();
+        }
+        $data = (new RequestParameters($request))->getDataByRequestParametersSchema($schema);
+
+        return $this->validateData($data, $schema);
+    }
+
+    public function validateResponse(Request $request, Response $response): SwaggerValidationResult
+    {
+        $schema = $this->schema->findResponseSchemaByHttpResponse($request, $response);
+        $data = json_decode($response->getContent());
+
+        return $this->validateData($data, $schema);
     }
 }
