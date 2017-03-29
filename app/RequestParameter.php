@@ -2,9 +2,10 @@
 
 namespace Absolvent\swagger;
 
+use Absolvent\swagger\Exception\SwaggerMissingRequestParameter;
+use Absolvent\swagger\Exception\SwaggerUnexpectedFieldValue\In as SwaggerUnexpectedFieldValueInException;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
-use UnexpectedValueException;
 
 class RequestParameter
 {
@@ -22,13 +23,22 @@ class RequestParameter
             // case 'path':
 
             case 'body':
-                return $this->request->request->get($requestParameterSchema->name);
+                return $this->getFromBag($this->request->request, $requestParameterSchema->name);
             case 'header':
-                return $this->request->headers->get($requestParameterSchema->name);
+                return $this->getFromBag($this->request->headers, $requestParameterSchema->name);
             case 'query':
-                return $this->request->query->get($requestParameterSchema->name);
+                return $this->getFromBag($this->request->query, $requestParameterSchema->name);
         }
 
-        throw new UnexpectedValueException($requestParameterSchema->in);
+        throw new SwaggerUnexpectedFieldValueInException($requestParameterSchema->in);
+    }
+
+    private function getFromBag($headerOrParameterBag, string $parameterName)
+    {
+        if (!$headerOrParameterBag->has($parameterName)) {
+            throw new SwaggerMissingRequestParameter($parameterName);
+        }
+
+        return $headerOrParameterBag->get($parameterName);
     }
 }

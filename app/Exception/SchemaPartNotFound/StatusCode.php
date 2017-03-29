@@ -4,13 +4,13 @@ namespace Absolvent\swagger\Exception\SchemaPartNotFound;
 
 use Absolvent\swagger\Breadcrumbs;
 use Absolvent\swagger\Exception\SchemaPartNotFound;
-use stdClass;
+use Absolvent\swagger\JsonSchema;
 
 class StatusCode extends SchemaPartNotFound
 {
     public $requestMethodSchema;
 
-    public function __construct(Breadcrumbs $breadcrumbs, stdClass $requestMethodSchema)
+    public function __construct(Breadcrumbs $breadcrumbs, JsonSchema $requestMethodSchema)
     {
         parent::__construct($breadcrumbs);
 

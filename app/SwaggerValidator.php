@@ -2,7 +2,7 @@
 
 namespace Absolvent\swagger;
 
-use stdClass;
+use Absolvent\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,7 +22,7 @@ class SwaggerValidator
         $this->jsonSchemaValidatorBuilder = new JsonSchemaValidatorBuilder($schema);
     }
 
-    public function validateData(stdClass $data, stdClass $schema): SwaggerValidationResult
+    public function validateData($data, JsonSchema $schema): SwaggerValidationResult
     {
         $validator = $this
             ->jsonSchemaValidatorBuilder
@@ -39,7 +39,7 @@ class SwaggerValidator
         if ($this->schema->has($breadcrumbs)) {
             $schema = $this->schema->findRequestParametersSchemaByHttpRequest($request);
         } else {
-            $schema = new stdClass();
+            $schema = new RequestParametersSchema([]);
         }
         $data = (new RequestParameters($request))->getDataByRequestParametersSchema($schema);
 

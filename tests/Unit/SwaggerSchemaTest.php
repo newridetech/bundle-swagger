@@ -29,9 +29,9 @@ class SwaggerSchemaTest extends TestCase
     {
         $request = Request::create('http://example.com/api/pets', 'GET');
         $schema = $swaggerSchema->findRequestMethodSchemaByHttpRequest($request);
-        $this->assertObjectHasAttribute('description', $schema);
-        $this->assertObjectHasAttribute('operationId', $schema);
-        $this->assertObjectHasAttribute('responses', $schema);
+        $this->assertTrue($schema->has('description'));
+        $this->assertTrue($schema->has('operationId'));
+        $this->assertTrue($schema->has('responses'));
     }
 
     /**
@@ -41,7 +41,7 @@ class SwaggerSchemaTest extends TestCase
     {
         $request = Request::create('http://example.com/api/pets', 'GET');
         $schema = $swaggerSchema->findRequestPathSchemaByHttpRequest($request);
-        $this->assertObjectHasAttribute('get', $schema);
+        $this->assertTrue($schema->has('get'));
     }
 
     /**
@@ -52,9 +52,9 @@ class SwaggerSchemaTest extends TestCase
         $request = Request::create('http://example.com/api/pets', 'GET');
         $schema = $swaggerSchema->findRequestParametersSchemaByHttpRequest($request);
 
-        $this->assertArrayHasKey(0, $schema);
-        $this->assertObjectHasAttribute('name', $schema[0]);
-        $this->assertObjectHasAttribute('description', $schema[0]);
+        $this->assertTrue($schema->has(0));
+        $this->assertObjectHasAttribute('name', $schema->get(0));
+        $this->assertObjectHasAttribute('description', $schema->get(0));
     }
 
     /**
@@ -71,8 +71,8 @@ class SwaggerSchemaTest extends TestCase
         ]), 200);
 
         $schema = $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
-        $this->assertObjectHasAttribute('type', $schema);
-        $this->assertObjectHasAttribute('items', $schema);
+        $this->assertTrue($schema->has('type'));
+        $this->assertTrue($schema->has('items'));
     }
 
     /**

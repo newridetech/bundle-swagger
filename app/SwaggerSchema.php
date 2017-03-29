@@ -10,8 +10,8 @@ use Absolvent\swagger\Exception\SchemaPartNotFound\Method;
 use Absolvent\swagger\Exception\SchemaPartNotFound\Parameters;
 use Absolvent\swagger\Exception\SchemaPartNotFound\Path;
 use Absolvent\swagger\Exception\SchemaPartNotFound\StatusCode;
+use Absolvent\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
 use Dflydev\DotAccessData\Data;
-use stdClass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Yaml;
@@ -33,7 +33,7 @@ class SwaggerSchema extends Data
         ]);
     }
 
-    public function findRequestPathSchemaByHttpRequest(Request $request): stdClass
+    public function findRequestPathSchemaByHttpRequest(Request $request): JsonSchema
     {
         $breadcrumbs = $this->findRequestPathBreadcrumbsByHttpRequest($request);
 
@@ -41,7 +41,7 @@ class SwaggerSchema extends Data
             throw new Path($breadcrumbs);
         }
 
-        return $this->get($breadcrumbs);
+        return new JsonSchema(parent::get($breadcrumbs));
     }
 
     public function findRequestMethodBreadcrumbsByHttpRequest(Request $request): RequestMethodBreadcrumbs
@@ -53,7 +53,7 @@ class SwaggerSchema extends Data
         return $breadcrumbs;
     }
 
-    public function findRequestMethodSchemaByHttpRequest(Request $request): stdClass
+    public function findRequestMethodSchemaByHttpRequest(Request $request): JsonSchema
     {
         $breadcrumbs = $this->findRequestMethodBreadcrumbsByHttpRequest($request);
 
@@ -61,7 +61,7 @@ class SwaggerSchema extends Data
             throw new Method($breadcrumbs, $this->findRequestPathSchemaByHttpRequest($request));
         }
 
-        return $this->get($breadcrumbs);
+        return new JsonSchema(parent::get($breadcrumbs));
     }
 
     public function findRequestParametersBreadcrumbsByHttpRequest(Request $request): RequestParametersBreadcrumbs
@@ -73,7 +73,7 @@ class SwaggerSchema extends Data
         return $breadcrumbs;
     }
 
-    public function findRequestParametersSchemaByHttpRequest(Request $request): array
+    public function findRequestParametersSchemaByHttpRequest(Request $request): RequestParametersSchema
     {
         $breadcrumbs = $this->findRequestParametersBreadcrumbsByHttpRequest($request);
 
@@ -81,7 +81,7 @@ class SwaggerSchema extends Data
             throw new Parameters($breadcrumbs, $this->findRequestMethodSchemaByHttpRequest($request));
         }
 
-        return $this->get($breadcrumbs);
+        return new RequestParametersSchema($this->get($breadcrumbs));
     }
 
     public function findResponsePathBreadcrumbsByHttpResponse(Request $request, Response $response): ResponsePathBreadcrumbs
@@ -95,7 +95,7 @@ class SwaggerSchema extends Data
         return $breadcrumbs;
     }
 
-    public function findResponseSchemaByHttpResponse(Request $request, Response $response): stdClass
+    public function findResponseSchemaByHttpResponse(Request $request, Response $response): JsonSchema
     {
         $breadcrumbs = $this->findResponsePathBreadcrumbsByHttpResponse($request, $response);
 
@@ -103,7 +103,7 @@ class SwaggerSchema extends Data
             throw new StatusCode($breadcrumbs, $this->findRequestMethodSchemaByHttpRequest($request));
         }
 
-        return $this->get($breadcrumbs);
+        return new JsonSchema(parent::get($breadcrumbs));
     }
 
     public function get($key, $default = null)

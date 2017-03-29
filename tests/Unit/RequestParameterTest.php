@@ -57,4 +57,35 @@ class RequestParameterTest extends TestCase
 
         $this->assertEquals($expectedValue, $requestParameter->getValue($requestParameterSchema));
     }
+
+    /**
+     * @expectedException \Absolvent\swagger\Exception\SwaggerUnexpectedFieldValue\In
+     * @expectedExceptionMessage foo
+     */
+    public function testThatUnknownInFieldThrowsException()
+    {
+        $request = Request::create('http://example.com/api/pets', 'GET');
+        $requestParameter = new RequestParameter($request);
+        $requestParameterSchema = (object) [
+            'in' => 'foo',
+            'name' => 'bar',
+        ];
+
+        $requestParameter->getValue($requestParameterSchema);
+    }
+
+    /**
+     * @expectedException \Absolvent\swagger\Exception\SwaggerMissingRequestParameter
+     */
+    public function testThatMissingValueThrowsException()
+    {
+        $request = Request::create('http://example.com/api/pets', 'GET');
+        $requestParameter = new RequestParameter($request);
+        $requestParameterSchema = (object) [
+            'in' => 'query',
+            'name' => 'bar',
+        ];
+
+        $requestParameter->getValue($requestParameterSchema);
+    }
 }
