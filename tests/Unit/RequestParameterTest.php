@@ -74,10 +74,7 @@ class RequestParameterTest extends TestCase
         $requestParameter->getValue($requestParameterSchema);
     }
 
-    /**
-     * @expectedException \Absolvent\swagger\Exception\SwaggerMissingRequestParameter
-     */
-    public function testThatMissingValueThrowsException()
+    public function testThatDefaultValueIsPicked()
     {
         $request = Request::create('http://example.com/api/pets', 'GET');
         $requestParameter = new RequestParameter($request);
@@ -86,6 +83,10 @@ class RequestParameterTest extends TestCase
             'name' => 'bar',
         ];
 
-        $requestParameter->getValue($requestParameterSchema);
+        $default = 'baz';
+        $this->assertEquals(
+            $default,
+            $requestParameter->getValue($requestParameterSchema, $default)
+        );
     }
 }

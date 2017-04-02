@@ -28,7 +28,7 @@ class SwaggerValidator
             ->jsonSchemaValidatorBuilder
             ->createJsonSchemaValidator()
         ;
-        $validator->validate($data, $schema);
+        $validator->validate($data, $schema->export());
 
         return new SwaggerValidationResult($validator);
     }

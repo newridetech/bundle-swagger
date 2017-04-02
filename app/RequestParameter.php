@@ -2,7 +2,6 @@
 
 namespace Absolvent\swagger;
 
-use Absolvent\swagger\Exception\SwaggerMissingRequestParameter;
 use Absolvent\swagger\Exception\SwaggerUnexpectedFieldValue\In as SwaggerUnexpectedFieldValueInException;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -16,29 +15,34 @@ class RequestParameter
         $this->request = $request;
     }
 
-    public function getValue(stdClass $requestParameterSchema)
+    public function findBag(stdClass $requestParameterSchema)
     {
         switch ($requestParameterSchema->in) {
             // case 'formData':
             // case 'path':
 
             case 'body':
-                return $this->getFromBag($this->request->request, $requestParameterSchema->name);
+                return $this->request->request;
             case 'header':
-                return $this->getFromBag($this->request->headers, $requestParameterSchema->name);
+                return $this->request->headers;
             case 'query':
-                return $this->getFromBag($this->request->query, $requestParameterSchema->name);
+                return $this->request->query;
         }
 
         throw new SwaggerUnexpectedFieldValueInException($requestParameterSchema->in);
     }
 
-    private function getFromBag($headerOrParameterBag, string $parameterName)
+    public function getValue(stdClass $requestParameterSchema, $default = null)
     {
-        if (!$headerOrParameterBag->has($parameterName)) {
-            throw new SwaggerMissingRequestParameter($parameterName);
-        }
+        return $this->findBag($requestParameterSchema)
+            ->get($requestParameterSchema->name, $default)
+        ;
+    }
 
-        return $headerOrParameterBag->get($parameterName);
+    public function hasValue(stdClass $requestParameterSchema): bool
+    {
+        return $this->findBag($requestParameterSchema)
+            ->has($requestParameterSchema->name)
+        ;
     }
 }

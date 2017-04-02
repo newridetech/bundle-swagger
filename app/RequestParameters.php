@@ -21,7 +21,9 @@ class RequestParameters
         $ret = new stdClass();
         foreach ($requestParametersSchema as $requestParameterSchema) {
             $requestParameter = new RequestParameter($this->request);
-            $ret->{$requestParameterSchema->name} = $requestParameter->getValue($requestParameterSchema);
+            if ($requestParameter->hasValue($requestParameterSchema)) {
+                $ret->{$requestParameterSchema->name} = $requestParameter->getValue($requestParameterSchema);
+            }
         }
 
         return $ret;

@@ -31,7 +31,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/Pet"
+              $ref: "file://definitions#/Pet"
             minItems: 1
   /pets:
     get:
@@ -59,11 +59,11 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Pet'
+              $ref: 'file://definitions#/Pet'
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: 'file://definitions#/Error'
     post:
       description: Creates a new pet in the store.  Duplicates are allowed
       operationId: addPet
@@ -73,16 +73,16 @@ paths:
           description: Pet to add to the store
           required: true
           schema:
-            $ref: '#/definitions/NewPet'
+            $ref: 'file://definitions#/NewPet'
       responses:
         "200":
           description: pet response
           schema:
-            $ref: '#/definitions/Pet'
+            $ref: 'file://definitions#/Pet'
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: 'file://definitions#/Error'
   /pets/{id}:
     get:
       description: Returns a user based on a single ID, if the user does not have access to the pet
@@ -98,11 +98,11 @@ paths:
         "200":
           description: pet response
           schema:
-            $ref: '#/definitions/Pet'
+            $ref: 'file://definitions#/Pet'
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: 'file://definitions#/Error'
     delete:
       description: deletes a single pet based on the ID supplied
       operationId: deletePet
@@ -119,11 +119,11 @@ paths:
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: 'file://definitions#/Error'
 definitions:
   Pet:
     allOf:
-      - $ref: '#/definitions/NewPet'
+      - $ref: 'file://definitions#/NewPet'
       - required:
         - id
         properties:
