@@ -55,7 +55,7 @@ class RequestParameterTest extends TestCase
     {
         $requestParameter = new RequestParameter($request);
 
-        $this->assertEquals($expectedValue, $requestParameter->getValue($requestParameterSchema));
+        $this->assertEquals($expectedValue, $requestParameter->getData($requestParameterSchema));
     }
 
     /**
@@ -71,7 +71,7 @@ class RequestParameterTest extends TestCase
             'name' => 'bar',
         ];
 
-        $requestParameter->getValue($requestParameterSchema);
+        $requestParameter->getData($requestParameterSchema);
     }
 
     public function testThatDefaultValueIsPicked()
@@ -86,7 +86,7 @@ class RequestParameterTest extends TestCase
         $default = 'baz';
         $this->assertEquals(
             $default,
-            $requestParameter->getValue($requestParameterSchema, $default)
+            $requestParameter->getData($requestParameterSchema, $default)
         );
     }
 }

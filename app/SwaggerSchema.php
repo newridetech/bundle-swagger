@@ -12,6 +12,7 @@ use Absolvent\swagger\Exception\SchemaPartNotFound\Path;
 use Absolvent\swagger\Exception\SchemaPartNotFound\StatusCode;
 use Absolvent\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
 use Dflydev\DotAccessData\Data;
+use stdClass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Yaml;
@@ -23,6 +24,11 @@ class SwaggerSchema extends Data
         $schema = Yaml::parse(file_get_contents($filename));
 
         return new static($schema);
+    }
+
+    public static function fromSchema(stdClass $schema): SwaggerSchema
+    {
+        return new static(json_decode(json_encode($schema), true));
     }
 
     public function findRequestPathBreadcrumbsByHttpRequest(Request $request): RequestPathBreadcrumbs
@@ -86,10 +92,20 @@ class SwaggerSchema extends Data
 
     public function findResponsePathBreadcrumbsByHttpResponse(Request $request, Response $response): ResponsePathBreadcrumbs
     {
+        return $this->findResponsePathBreadcrumbsByHttpResponseStatusCode($request, $response, $response->getStatusCode());
+    }
+
+    public function findResponsePathBreadcrumbsByHttpResponseDefault(Request $request, Response $response): ResponsePathBreadcrumbs
+    {
+        return $this->findResponsePathBreadcrumbsByHttpResponseStatusCode($request, $response, 'default');
+    }
+
+    public function findResponsePathBreadcrumbsByHttpResponseStatusCode(Request $request, Response $response, $statusCode): ResponsePathBreadcrumbs
+    {
         $breadcrumbs = $this->findRequestMethodBreadcrumbsByHttpRequest($request);
         $breadcrumbs = ResponsePathBreadcrumbs::fromBreadcrumbs($breadcrumbs);
         $breadcrumbs->breadcrumbs[] = 'responses';
-        $breadcrumbs->breadcrumbs[] = $response->getStatusCode();
+        $breadcrumbs->breadcrumbs[] = $statusCode;
         $breadcrumbs->breadcrumbs[] = 'schema';
 
         return $breadcrumbs;
@@ -98,7 +114,9 @@ class SwaggerSchema extends Data
     public function findResponseSchemaByHttpResponse(Request $request, Response $response): JsonSchema
     {
         $breadcrumbs = $this->findResponsePathBreadcrumbsByHttpResponse($request, $response);
-
+        if (!$this->has($breadcrumbs)) {
+            $breadcrumbs = $this->findResponsePathBreadcrumbsByHttpResponseDefault($request, $response);
+        }
         if (!$this->has($breadcrumbs)) {
             throw new StatusCode($breadcrumbs, $this->findRequestMethodSchemaByHttpRequest($request));
         }

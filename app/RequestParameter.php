@@ -32,7 +32,7 @@ class RequestParameter
         throw new SwaggerUnexpectedFieldValueInException($requestParameterSchema->in);
     }
 
-    public function getValue(stdClass $requestParameterSchema, $default = null)
+    public function getData(stdClass $requestParameterSchema, $default = null)
     {
         return $this->findBag($requestParameterSchema)
             ->get($requestParameterSchema->name, $default)

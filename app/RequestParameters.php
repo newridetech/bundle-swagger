@@ -22,7 +22,7 @@ class RequestParameters
         foreach ($requestParametersSchema as $requestParameterSchema) {
             $requestParameter = new RequestParameter($this->request);
             if ($requestParameter->hasValue($requestParameterSchema)) {
-                $ret->{$requestParameterSchema->name} = $requestParameter->getValue($requestParameterSchema);
+                $ret->{$requestParameterSchema->name} = $requestParameter->getData($requestParameterSchema);
             }
         }
 

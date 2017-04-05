@@ -2,7 +2,9 @@
 
 namespace Absolvent\swagger\tests\Unit;
 
-use Absolvent\swagger\SwaggerValidator;
+use Absolvent\swagger\SwaggerSchema;
+use Absolvent\swagger\SwaggerValidator\HttpRequest as HttpRequestValidator;
+use Absolvent\swagger\SwaggerValidator\HttpResponse as HttpResponseValidator;
 use Absolvent\swagger\tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,7 +67,7 @@ class SwaggerValidatorTest extends TestCase
         yield 'valid input parameters' => [
             'fixtureFilename' => 'fixtures/petstore-expanded.yml',
             'request' => Request::create('http://petstore.swagger.io/api/pets', 'GET', [
-                'tags' => 0,
+                'tags' => ['a', 'b'],
                 'limit' => 0,
             ]),
             'isRequestValid' => true,
@@ -93,16 +95,16 @@ class SwaggerValidatorTest extends TestCase
      */
     public function testThatDataIsValidated(string $fixtureFilename, Request $request, bool $isRequestValid, Response $response, bool $isResponseValid)
     {
-        $swaggerValidator = SwaggerValidator::fromFilename(base_path($fixtureFilename));
+        $swaggerSchema = SwaggerSchema::fromFilename(base_path($fixtureFilename));
 
-        $requestValidator = $swaggerValidator->validateRequest($request);
+        $requestValidator = (new HttpRequestValidator($request))->validateAgainst($swaggerSchema);
         $this->assertSame(
             $isRequestValid,
             $requestValidator->isValid(),
             'Request is invalid: '.$requestValidator->getException()->getMessage()
         );
 
-        $responseValidator = $swaggerValidator->validateResponse($request, $response);
+        $responseValidator = (new HttpResponseValidator($request, $response))->validateAgainst($swaggerSchema);
         $this->assertSame(
             $isResponseValid,
             $responseValidator->isValid(),

@@ -113,7 +113,7 @@ class SwaggerSchemaTest extends TestCase
      */
     public function testThatMissingStatusCodeIsHandled(SwaggerSchema $swaggerSchema)
     {
-        $request = Request::create('http://example.com/api/pets', 'GET');
+        $request = Request::create('http://example.com/api/pet', 'GET');
         $response = Response::create('', 123);
         $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
     }
