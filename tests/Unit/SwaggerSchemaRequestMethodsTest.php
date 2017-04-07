@@ -9,13 +9,29 @@ use Absolvent\swagger\tests\TestCase;
 
 class SwaggerSchemaRequestMethodsTest extends TestCase
 {
-    public function testThatSwaggerSchemaIsCreated(): SwaggerSchema
+    public function testThatSwaggerEmptySchemaIsCreated(): SwaggerSchema
+    {
+        return SwaggerSchema::fromFilename(base_path('fixtures/empty.yml'));
+    }
+
+    /**
+     * @depends testThatSwaggerEmptySchemaIsCreated
+     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound\Paths
+     */
+    public function testThatEmptySchemaIsHandled(SwaggerSchema $swaggerSchema)
+    {
+        $requestMethods = new SwaggerSchemaRequestMethods($swaggerSchema);
+
+        $requestMethods->getRequestMethodBreadcrumbsList();
+    }
+
+    public function testThatSwaggerPetstoreSchemaIsCreated(): SwaggerSchema
     {
         return SwaggerSchema::fromFilename(base_path('fixtures/petstore.yml'));
     }
 
     /**
-     * @depends testThatSwaggerSchemaIsCreated
+     * @depends testThatSwaggerPetstoreSchemaIsCreated
      */
     public function testThatResponsePathsListIsFound(SwaggerSchema $swaggerSchema)
     {

@@ -10,9 +10,9 @@ class Method extends SchemaPartNotFound
 {
     public $requestPathSchema;
 
-    public function __construct(Breadcrumbs $breadcrumbs, JsonSchema $requestPathSchema)
+    public function __construct(Breadcrumbs $breadcrumbs, string $filename, JsonSchema $requestPathSchema)
     {
-        parent::__construct($breadcrumbs);
+        parent::__construct($breadcrumbs, $filename);
 
         $this->requestPathSchema = $requestPathSchema;
     }

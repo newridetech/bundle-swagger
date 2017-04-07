@@ -14,7 +14,7 @@ class SchemaPartNotFoundTest extends TestCase
             'foo',
             'bar',
         ]);
-        $e = new SchemaPartNotFound($breadcrumbs);
+        $e = new SchemaPartNotFound($breadcrumbs, 'test.yml');
         $this->assertContains(strval($breadcrumbs), $e->getMessage());
     }
 }

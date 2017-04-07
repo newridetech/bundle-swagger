@@ -10,9 +10,9 @@ class StatusCode extends SchemaPartNotFound
 {
     public $requestMethodSchema;
 
-    public function __construct(Breadcrumbs $breadcrumbs, JsonSchema $requestMethodSchema)
+    public function __construct(Breadcrumbs $breadcrumbs, string $filename, JsonSchema $requestMethodSchema)
     {
-        parent::__construct($breadcrumbs);
+        parent::__construct($breadcrumbs, $filename);
 
         $this->requestMethodSchema = $requestMethodSchema;
     }

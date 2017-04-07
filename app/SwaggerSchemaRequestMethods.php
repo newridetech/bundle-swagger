@@ -2,6 +2,7 @@
 
 namespace Absolvent\swagger;
 
+use Absolvent\swagger\Exception\SchemaPartNotFound\Paths;
 use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
 
 class SwaggerSchemaRequestMethods
@@ -15,9 +16,14 @@ class SwaggerSchemaRequestMethods
 
     public function getRequestMethodBreadcrumbsList(): array
     {
-        $ret = [];
-        $paths = $this->swaggerSchema->get('paths');
+        $pathsBreadcrumbs = new Breadcrumbs(['paths']);
 
+        $ret = [];
+        if (!$this->swaggerSchema->has($pathsBreadcrumbs)) {
+            throw new Paths($pathsBreadcrumbs, $this->swaggerSchema->filename);
+        }
+
+        $paths = $this->swaggerSchema->get($pathsBreadcrumbs);
         foreach ($paths as $pathname => $pathMethods) {
             foreach ($pathMethods as $pathMethod => $pathDescription) {
                 $ret[] = new RequestMethodBreadcrumbs([
