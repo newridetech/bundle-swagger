@@ -41,7 +41,7 @@ class RequestParametersTest extends TestCase
      * @depends testThatRequestIsCreated
      * @depends testThatRequestParametersSchemaIsObtained
      */
-    public function testThatRequestDataIsObtained(Request $request, RequestParametersSchema $requestParametersSchema)
+    public function testThatRequestDataByParametersSchemaIsObtained(Request $request, RequestParametersSchema $requestParametersSchema)
     {
         $requestParameters = new RequestParameters($request);
         $data = $requestParameters->getDataByRequestParametersSchema($requestParametersSchema);
@@ -51,5 +51,21 @@ class RequestParametersTest extends TestCase
 
         $this->assertObjectHasAttribute('tags', $data);
         $this->assertEquals(self::$expectedTags, $data->tags);
+    }
+
+    /**
+     * @depends testThatRequestIsCreated
+     * @depends testThatSwaggerSchemaIsCreated
+     * @depends testThatRequestParametersSchemaIsObtained
+     * @depends testThatRequestDataByParametersSchemaIsObtained
+     */
+    public function testThatRequestDataBySwaggerSchemaIsObtained(Request $request, SwaggerSchema $swaggerSchema, RequestParametersSchema $requestParametersSchema)
+    {
+        $requestParameters = new RequestParameters($request);
+
+        $dataByParametersSchema = $requestParameters->getDataByRequestParametersSchema($requestParametersSchema);
+        $dataBySwaggerSchema = $requestParameters->getDataBySwaggerSchema($swaggerSchema);
+
+        $this->assertEquals($dataByParametersSchema, $dataBySwaggerSchema);
     }
 }

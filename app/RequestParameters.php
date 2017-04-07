@@ -3,6 +3,7 @@
 namespace Absolvent\swagger;
 
 use Absolvent\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
+use Absolvent\swagger\SwaggerSchema;
 use Illuminate\Http\Request;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -14,6 +15,13 @@ class RequestParameters
     public function __construct(SymfonyRequest $request)
     {
         $this->request = Request::createFromBase($request);
+    }
+
+    public function getDataBySwaggerSchema(SwaggerSchema $swaggerSchema): stdClass
+    {
+        $requestParametersSchema = $swaggerSchema->findRequestParametersSchemaByHttpRequest($this->request);
+
+        return $this->getDataByRequestParametersSchema($requestParametersSchema);
     }
 
     public function getDataByRequestParametersSchema(RequestParametersSchema $requestParametersSchema): stdClass
