@@ -2,7 +2,8 @@
 
 namespace Absolvent\swagger;
 
-use Absolvent\swagger\Exception\SchemaPartNotFound\Paths;
+use Absolvent\swagger\Exception\SchemaPartIsEmpty;
+use Absolvent\swagger\Exception\SchemaPartNotFound;
 use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
 
 class SwaggerSchemaRequestMethods
@@ -20,10 +21,14 @@ class SwaggerSchemaRequestMethods
 
         $ret = [];
         if (!$this->swaggerSchema->has($pathsBreadcrumbs)) {
-            throw new Paths($pathsBreadcrumbs, $this->swaggerSchema->filename);
+            throw new SchemaPartNotFound($pathsBreadcrumbs, $this->swaggerSchema->filename);
         }
 
         $paths = $this->swaggerSchema->get($pathsBreadcrumbs);
+        if (!is_object($paths)) {
+            throw new SchemaPartIsEmpty($pathsBreadcrumbs, $this->swaggerSchema->filename);
+        }
+
         foreach ($paths as $pathname => $pathMethods) {
             foreach ($pathMethods as $pathMethod => $pathDescription) {
                 $ret[] = new RequestMethodBreadcrumbs([

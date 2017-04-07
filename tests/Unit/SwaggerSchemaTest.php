@@ -77,7 +77,7 @@ class SwaggerSchemaTest extends TestCase
 
     /**
      * @depends testThatSwaggerSchemaIsCreated
-     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound\Path
+     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound
      */
     public function testThatMissingPathIsHandled(SwaggerSchema $swaggerSchema)
     {
@@ -88,7 +88,7 @@ class SwaggerSchemaTest extends TestCase
 
     /**
      * @depends testThatSwaggerSchemaIsCreated
-     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound\Method
+     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound
      */
     public function testThatMissingMethodIsHandled(SwaggerSchema $swaggerSchema)
     {
@@ -99,7 +99,7 @@ class SwaggerSchemaTest extends TestCase
 
     /**
      * @depends testThatSwaggerSchemaIsCreated
-     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound\Parameters
+     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound
      */
     public function testThatMissingParametersIsHandled(SwaggerSchema $swaggerSchema)
     {
@@ -109,7 +109,7 @@ class SwaggerSchemaTest extends TestCase
 
     /**
      * @depends testThatSwaggerSchemaIsCreated
-     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound\StatusCode
+     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound
      */
     public function testThatMissingStatusCodeIsHandled(SwaggerSchema $swaggerSchema)
     {

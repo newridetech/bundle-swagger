@@ -16,13 +16,30 @@ class SwaggerSchemaRequestMethodsTest extends TestCase
 
     /**
      * @depends testThatSwaggerEmptySchemaIsCreated
-     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound\Paths
+     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound
      */
     public function testThatEmptySchemaIsHandled(SwaggerSchema $swaggerSchema)
     {
         $requestMethods = new SwaggerSchemaRequestMethods($swaggerSchema);
 
         $requestMethods->getRequestMethodBreadcrumbsList();
+    }
+
+    public function testThatSwaggerEmptyPathsSchemaIsCreated(): SwaggerSchema
+    {
+        return SwaggerSchema::fromFilename(base_path('fixtures/empty-paths.yml'));
+    }
+
+    /**
+     * @depends testThatSwaggerEmptyPathsSchemaIsCreated
+     * @expectedException \Absolvent\swagger\Exception\SchemaPartIsEmpty
+     */
+    public function testThatEmptyPathsSchemaIsHandled(SwaggerSchema $swaggerSchema)
+    {
+        $requestMethods = new SwaggerSchemaRequestMethods($swaggerSchema);
+        $breadcrumbsList = $requestMethods->getRequestMethodBreadcrumbsList();
+
+        $this->assertEmpty($breadcrumbsList);
     }
 
     public function testThatSwaggerPetstoreSchemaIsCreated(): SwaggerSchema

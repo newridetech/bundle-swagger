@@ -6,10 +6,7 @@ use Absolvent\swagger\Breadcrumbs\RequestPath as RequestPathBreadcrumbs;
 use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
 use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod\ResponsePath as ResponsePathBreadcrumbs;
 use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod\Requestparameters as RequestparametersBreadcrumbs;
-use Absolvent\swagger\Exception\SchemaPartNotFound\Method;
-use Absolvent\swagger\Exception\SchemaPartNotFound\Parameters;
-use Absolvent\swagger\Exception\SchemaPartNotFound\Path;
-use Absolvent\swagger\Exception\SchemaPartNotFound\StatusCode;
+use Absolvent\swagger\Exception\SchemaPartNotFound;
 use Absolvent\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
 use Dflydev\DotAccessData\Data;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,7 +52,7 @@ class SwaggerSchema extends Data
         $breadcrumbs = $this->findRequestPathBreadcrumbsByHttpRequest($request);
 
         if (!$this->has($breadcrumbs)) {
-            throw new Path($breadcrumbs, $this->filename);
+            throw new SchemaPartNotFound($breadcrumbs, $this->filename);
         }
 
         return new JsonSchema(parent::get($breadcrumbs));
@@ -75,7 +72,7 @@ class SwaggerSchema extends Data
         $breadcrumbs = $this->findRequestMethodBreadcrumbsByHttpRequest($request);
 
         if (!$this->has($breadcrumbs)) {
-            throw new Method($breadcrumbs, $this->filename, $this->findRequestPathSchemaByHttpRequest($request));
+            throw new SchemaPartNotFound($breadcrumbs, $this->filename);
         }
 
         return new JsonSchema(parent::get($breadcrumbs));
@@ -95,7 +92,7 @@ class SwaggerSchema extends Data
         $breadcrumbs = $this->findRequestParametersBreadcrumbsByHttpRequest($request);
 
         if (!$this->has($breadcrumbs)) {
-            throw new Parameters($breadcrumbs, $this->filename, $this->findRequestMethodSchemaByHttpRequest($request));
+            throw new SchemaPartNotFound($breadcrumbs, $this->filename);
         }
 
         return new RequestParametersSchema($this->get($breadcrumbs));
@@ -129,7 +126,7 @@ class SwaggerSchema extends Data
             $breadcrumbs = $this->findResponsePathBreadcrumbsByHttpResponseDefault($request, $response);
         }
         if (!$this->has($breadcrumbs)) {
-            throw new StatusCode($breadcrumbs, $this->filename, $this->findRequestMethodSchemaByHttpRequest($request));
+            throw new SchemaPartNotFound($breadcrumbs, $this->filename);
         }
 
         return new JsonSchema(parent::get($breadcrumbs));
