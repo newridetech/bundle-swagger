@@ -23,14 +23,19 @@ class RequestParametersTest extends TestCase
         ]);
     }
 
-    public function testThatSwaggerSchemaIsCreated(): SwaggerSchema
+    public function testThatPetstoreExpandedSwaggerSchemaIsCreated(): SwaggerSchema
+    {
+        return SwaggerSchema::fromFilename(base_path('fixtures/petstore-expanded.yml'));
+    }
+
+    public function testThatPetstoreSwaggerSchemaIsCreated(): SwaggerSchema
     {
         return SwaggerSchema::fromFilename(base_path('fixtures/petstore-expanded.yml'));
     }
 
     /**
      * @depends testThatRequestIsCreated
-     * @depends testThatSwaggerSchemaIsCreated
+     * @depends testThatPetstoreExpandedSwaggerSchemaIsCreated
      */
     public function testThatRequestParametersSchemaIsObtained(Request $request, SwaggerSchema $swaggerSchema): RequestParametersSchema
     {
@@ -55,7 +60,7 @@ class RequestParametersTest extends TestCase
 
     /**
      * @depends testThatRequestIsCreated
-     * @depends testThatSwaggerSchemaIsCreated
+     * @depends testThatPetstoreExpandedSwaggerSchemaIsCreated
      * @depends testThatRequestParametersSchemaIsObtained
      * @depends testThatRequestDataByParametersSchemaIsObtained
      */

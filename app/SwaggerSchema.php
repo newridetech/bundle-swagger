@@ -139,4 +139,11 @@ class SwaggerSchema extends Data
 
         return $ret;
     }
+
+    public function hasRequestParametersSchemaByHttpRequest(Request $request): bool
+    {
+        $breadcrumbs = $this->findRequestParametersBreadcrumbsByHttpRequest($request);
+
+        return $this->has($breadcrumbs);
+    }
 }

@@ -22,8 +22,7 @@ class HttpRequest extends SwaggerValidator
 
     public function validateAgainst(SwaggerSchema $schema): SwaggerValidationResult
     {
-        $breadcrumbs = $schema->findRequestParametersBreadcrumbsByHttpRequest($this->request);
-        if ($schema->has($breadcrumbs)) {
+        if ($schema->hasRequestParametersSchemaByHttpRequest($this->request)) {
             $requestParametersSchema = $schema->findRequestParametersSchemaByHttpRequest($this->request);
         } else {
             $requestParametersSchema = new RequestParametersSchema([]);
