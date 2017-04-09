@@ -18,9 +18,9 @@ class RequestParameters
 
     public function getDataBySwaggerSchema(SwaggerSchema $swaggerSchema): stdClass
     {
-        // if (!$swaggerSchema->hasRequestParametersSchemaByHttpRequest($this->request)) {
-        //     return new stdClass();
-        // }
+        if (!$swaggerSchema->hasRequestParametersSchemaByHttpRequest($this->request)) {
+            return new stdClass();
+        }
 
         $requestParametersSchema = $swaggerSchema->findRequestParametersSchemaByHttpRequest($this->request);
 

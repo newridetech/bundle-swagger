@@ -30,7 +30,7 @@ class RequestParametersTest extends TestCase
 
     public function testThatPetstoreSwaggerSchemaIsCreated(): SwaggerSchema
     {
-        return SwaggerSchema::fromFilename(base_path('fixtures/petstore-expanded.yml'));
+        return SwaggerSchema::fromFilename(base_path('fixtures/petstore.yml'));
     }
 
     /**
@@ -72,5 +72,17 @@ class RequestParametersTest extends TestCase
         $dataBySwaggerSchema = $requestParameters->getDataBySwaggerSchema($swaggerSchema);
 
         $this->assertEquals($dataByParametersSchema, $dataBySwaggerSchema);
+    }
+
+    /**
+     * @depends testThatRequestIsCreated
+     * @depends testThatPetstoreSwaggerSchemaIsCreated
+     */
+    public function testThatRequestDataByParameterlessSwaggerSchemaIsObtained(Request $request, SwaggerSchema $swaggerSchema)
+    {
+        $requestParameters = new RequestParameters($request);
+        $dataBySwaggerSchema = $requestParameters->getDataBySwaggerSchema($swaggerSchema);
+
+        $this->assertEmpty((array) $dataBySwaggerSchema);
     }
 }
