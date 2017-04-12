@@ -22,6 +22,7 @@ class RequestParameter
             // case 'path':
 
             case 'body':
+            case 'formData':
                 return $this->request->request;
             case 'header':
                 return $this->request->headers;
