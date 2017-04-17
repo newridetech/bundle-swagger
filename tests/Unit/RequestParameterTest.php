@@ -19,7 +19,6 @@ class RequestParameterTest extends TestCase
                 'in' => 'query',
                 'name' => 'foo',
             ],
-            'expectedKey' => 'foo',
             'expectedValue' => 'bar',
         ];
 
@@ -31,7 +30,6 @@ class RequestParameterTest extends TestCase
                 'in' => 'header',
                 'name' => 'foo',
             ],
-            'expectedKey' => 'foo',
             'expectedValue' => 'bar',
         ];
 
@@ -43,7 +41,25 @@ class RequestParameterTest extends TestCase
                 'in' => 'body',
                 'name' => 'foo',
             ],
-            'expectedKey' => 'foo',
+            'expectedValue' => 'bar',
+        ];
+
+        yield 'form data request' => [
+            'request' => Request::create(
+                'http://example.com/api/pets',
+                'POST',
+                $parameters = [],
+                $cookies = [],
+                $files = [],
+                $server = [],
+                json_encode([
+                    'foo' => 'bar',
+                ])
+            ),
+            'requestParameterSchema' => (object) [
+                'in' => 'formData',
+                'name' => 'foo',
+            ],
             'expectedValue' => 'bar',
         ];
     }
@@ -51,7 +67,7 @@ class RequestParameterTest extends TestCase
     /**
      * @dataProvider provideRequestParameters
      */
-    public function testThatQueryParameterDataIsObtained(Request $request, stdClass $requestParameterSchema, $expectedKey, $expectedValue)
+    public function testThatQueryParameterDataIsObtained(Request $request, stdClass $requestParameterSchema, $expectedValue)
     {
         $requestParameter = new RequestParameter($request);
 

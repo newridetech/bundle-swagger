@@ -4,11 +4,17 @@ namespace Absolvent\swagger;
 
 use Absolvent\swagger\Exception\SwaggerUnexpectedFieldValue\In as SwaggerUnexpectedFieldValueInException;
 use stdClass;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class RequestParameter
 {
     public $request;
+
+    public static function isFormData(stdClass $requestParameterSchema): bool
+    {
+        return 'formData' === $requestParameterSchema->in;
+    }
 
     public function __construct(SymfonyRequest $request)
     {
@@ -18,12 +24,12 @@ class RequestParameter
     public function findBag(stdClass $requestParameterSchema)
     {
         switch ($requestParameterSchema->in) {
-            // case 'formData':
             // case 'path':
 
             case 'body':
-            case 'formData':
                 return $this->request->request;
+            case 'formData':
+                return $this->getRequestFormDataParameterBag();
             case 'header':
                 return $this->request->headers;
             case 'query':
@@ -38,6 +44,13 @@ class RequestParameter
         return $this->findBag($requestParameterSchema)
             ->get($requestParameterSchema->name, $default)
         ;
+    }
+
+    public function getRequestFormDataParameterBag(): ParameterBag
+    {
+        $parameters = json_decode($this->request->getContent(), true);
+
+        return new ParameterBag($parameters);
     }
 
     public function hasValue(stdClass $requestParameterSchema): bool
