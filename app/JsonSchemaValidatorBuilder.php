@@ -12,16 +12,16 @@ use JsonSchema\Validator;
  */
 class JsonSchemaValidatorBuilder
 {
-    public $schemaStorageBuilder;
+    public $swaggerSchema;
 
     public function __construct(SwaggerSchema $swaggerSchema)
     {
-        $this->schemaStorageBuilder = new SchemaStorageBuilder($swaggerSchema);
+        $this->swaggerSchema = $swaggerSchema;
     }
 
     public function createJsonSchemaFactory(): Factory
     {
-        $schemaStorage = $this->schemaStorageBuilder->createJsonSchemaStorage();
+        $schemaStorage = new SchemaStorage(null, null, $this->swaggerSchema);
 
         return new Factory($schemaStorage, null, Constraint::CHECK_MODE_COERCE_TYPES);
     }

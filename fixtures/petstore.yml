@@ -28,7 +28,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "file://definitions#/Pet"
+              $ref: "#/definitions/Pet"
             minItems: 1
 definitions:
   Pet:
