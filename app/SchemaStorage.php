@@ -8,7 +8,8 @@ use JsonSchema\UriRetrieverInterface;
 
 class SchemaStorage extends BaseSchemaStorage
 {
-    const INTERNAL_PROVIDED_SCHEMA_URI_DEFINITIONS = BaseSchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI.'#/definitions';
+    const SYMBOL_SCHEMA_ANCHOR = '#';
+    const INTERNAL_PROVIDED_SCHEMA_URI_DEFINITIONS = BaseSchemaStorage::INTERNAL_PROVIDED_SCHEMA_URI.self::SYMBOL_SCHEMA_ANCHOR.'/definitions';
     const FILE_PROVIDED_SCHEMA_URI = 'file://definitions';
 
     public function __construct(UriRetrieverInterface $uriRetriever = null, UriResolverInterface $uriResolver = null, SwaggerSchema $swaggerSchema)
@@ -28,7 +29,7 @@ class SchemaStorage extends BaseSchemaStorage
             // instead of local variant for which JSON schema is searching for
             return parent::resolveRef(str_replace(
                 self::INTERNAL_PROVIDED_SCHEMA_URI_DEFINITIONS,
-                SchemaStorage::FILE_PROVIDED_SCHEMA_URI.'#',
+                SchemaStorage::FILE_PROVIDED_SCHEMA_URI.self::SYMBOL_SCHEMA_ANCHOR,
                 $ref
             ));
         }
