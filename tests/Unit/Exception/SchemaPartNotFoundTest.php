@@ -4,7 +4,7 @@ namespace Absolvent\swagger\tests\Unit\Exception;
 
 use Absolvent\swagger\Breadcrumbs;
 use Absolvent\swagger\Exception\SchemaPartNotFound;
-use Absolvent\swagger\tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class SchemaPartNotFoundTest extends TestCase
 {
@@ -15,6 +15,6 @@ class SchemaPartNotFoundTest extends TestCase
             'bar',
         ]);
         $e = new SchemaPartNotFound($breadcrumbs, 'test.yml');
-        $this->assertContains(strval($breadcrumbs), $e->getMessage());
+        self::assertContains(strval($breadcrumbs), $e->getMessage());
     }
 }

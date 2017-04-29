@@ -5,13 +5,13 @@ namespace Absolvent\swagger\tests\Unit;
 use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
 use Absolvent\swagger\SwaggerRequestMethods;
 use Absolvent\swagger\SwaggerSchema;
-use Absolvent\swagger\tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class SwaggerRequestMethodsTest extends TestCase
 {
     public function testThatSwaggerSchemaIsCreated(): SwaggerSchema
     {
-        return SwaggerSchema::fromFilename(base_path('fixtures/petstore.yml'));
+        return SwaggerSchema::fromFilename(__DIR__.'/../../fixtures/petstore.yml');
     }
 
     /**
@@ -22,7 +22,7 @@ class SwaggerRequestMethodsTest extends TestCase
         $swaggerRequestMethods = new SwaggerRequestMethods($swaggerSchema);
         $requestMethodBreadcrumbs = $swaggerRequestMethods->getRequestMethodBreadcrumbs();
 
-        $this->assertNotEmpty($requestMethodBreadcrumbs);
-        $this->assertContainsOnlyInstancesOf(RequestMethodBreadcrumbs::class, $requestMethodBreadcrumbs);
+        self::assertNotEmpty($requestMethodBreadcrumbs);
+        self::assertContainsOnlyInstancesOf(RequestMethodBreadcrumbs::class, $requestMethodBreadcrumbs);
     }
 }

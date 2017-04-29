@@ -5,13 +5,13 @@ namespace Absolvent\swagger\tests\Unit;
 use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
 use Absolvent\swagger\SwaggerSchema;
 use Absolvent\swagger\SwaggerSchemaRequestMethods;
-use Absolvent\swagger\tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class SwaggerSchemaRequestMethodsTest extends TestCase
 {
     public function testThatSwaggerEmptySchemaIsCreated(): SwaggerSchema
     {
-        return SwaggerSchema::fromFilename(base_path('fixtures/empty.yml'));
+        return SwaggerSchema::fromFilename(__DIR__.'/../../fixtures/empty.yml');
     }
 
     /**
@@ -27,7 +27,7 @@ class SwaggerSchemaRequestMethodsTest extends TestCase
 
     public function testThatSwaggerEmptyPathsSchemaIsCreated(): SwaggerSchema
     {
-        return SwaggerSchema::fromFilename(base_path('fixtures/empty-paths.yml'));
+        return SwaggerSchema::fromFilename(__DIR__.'/../../fixtures/empty-paths.yml');
     }
 
     /**
@@ -39,12 +39,12 @@ class SwaggerSchemaRequestMethodsTest extends TestCase
         $requestMethods = new SwaggerSchemaRequestMethods($swaggerSchema);
         $breadcrumbsList = $requestMethods->getRequestMethodBreadcrumbsList();
 
-        $this->assertEmpty($breadcrumbsList);
+        self::assertEmpty($breadcrumbsList);
     }
 
     public function testThatSwaggerPetstoreSchemaIsCreated(): SwaggerSchema
     {
-        return SwaggerSchema::fromFilename(base_path('fixtures/petstore.yml'));
+        return SwaggerSchema::fromFilename(__DIR__.'/../../fixtures/petstore.yml');
     }
 
     /**
@@ -55,8 +55,8 @@ class SwaggerSchemaRequestMethodsTest extends TestCase
         $requestMethods = new SwaggerSchemaRequestMethods($swaggerSchema);
         $breadcrumbsList = $requestMethods->getRequestMethodBreadcrumbsList();
 
-        $this->assertContainsOnlyInstancesOf(RequestMethodBreadcrumbs::class, $breadcrumbsList);
-        $this->assertEquals([
+        self::assertContainsOnlyInstancesOf(RequestMethodBreadcrumbs::class, $breadcrumbsList);
+        self::assertEquals([
             'paths./pet.get',
         ], array_map('strval', $breadcrumbsList));
     }

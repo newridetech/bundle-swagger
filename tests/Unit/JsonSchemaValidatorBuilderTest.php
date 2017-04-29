@@ -4,14 +4,14 @@ namespace Absolvent\swagger\tests\Unit;
 
 use Absolvent\swagger\JsonSchemaValidatorBuilder;
 use Absolvent\swagger\SwaggerSchema;
-use Absolvent\swagger\tests\TestCase;
 use JsonSchema\Validator;
+use PHPUnit\Framework\TestCase;
 
 class JsonSchemaValidatorBuilderTest extends TestCase
 {
     public function testThatSchemaIsCreatedFromFilename(): SwaggerSchema
     {
-        return SwaggerSchema::fromFilename(base_path('fixtures/petstore.yml'));
+        return SwaggerSchema::fromFilename(__DIR__.'/../../fixtures/petstore.yml');
     }
 
     /**
@@ -21,6 +21,6 @@ class JsonSchemaValidatorBuilderTest extends TestCase
     {
         $builder = new JsonSchemaValidatorBuilder($swaggerSchema);
         $validator = $builder->createJsonSchemaValidator();
-        $this->assertInstanceOf(Validator::class, $validator);
+        self::assertInstanceOf(Validator::class, $validator);
     }
 }

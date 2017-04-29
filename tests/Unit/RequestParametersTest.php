@@ -5,7 +5,7 @@ namespace Absolvent\swagger\tests\Unit;
 use Absolvent\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
 use Absolvent\swagger\RequestParameters;
 use Absolvent\swagger\SwaggerSchema;
-use Absolvent\swagger\tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestParametersTest extends TestCase
@@ -25,12 +25,12 @@ class RequestParametersTest extends TestCase
 
     public function testThatPetstoreExpandedSwaggerSchemaIsCreated(): SwaggerSchema
     {
-        return SwaggerSchema::fromFilename(base_path('fixtures/petstore-expanded.yml'));
+        return SwaggerSchema::fromFilename(__DIR__.'/../../fixtures/petstore-expanded.yml');
     }
 
     public function testThatPetstoreSwaggerSchemaIsCreated(): SwaggerSchema
     {
-        return SwaggerSchema::fromFilename(base_path('fixtures/petstore.yml'));
+        return SwaggerSchema::fromFilename(__DIR__.'/../../fixtures/petstore.yml');
     }
 
     /**
@@ -51,11 +51,11 @@ class RequestParametersTest extends TestCase
         $requestParameters = new RequestParameters($request);
         $data = $requestParameters->getDataByRequestParametersSchema($requestParametersSchema);
 
-        $this->assertObjectHasAttribute('limit', $data);
-        $this->assertEquals(self::$expectedLimit, $data->limit);
+        self::assertObjectHasAttribute('limit', $data);
+        self::assertEquals(self::$expectedLimit, $data->limit);
 
-        $this->assertObjectHasAttribute('tags', $data);
-        $this->assertEquals(self::$expectedTags, $data->tags);
+        self::assertObjectHasAttribute('tags', $data);
+        self::assertEquals(self::$expectedTags, $data->tags);
     }
 
     /**
@@ -71,7 +71,7 @@ class RequestParametersTest extends TestCase
         $dataByParametersSchema = $requestParameters->getDataByRequestParametersSchema($requestParametersSchema);
         $dataBySwaggerSchema = $requestParameters->getDataBySwaggerSchema($swaggerSchema);
 
-        $this->assertEquals($dataByParametersSchema, $dataBySwaggerSchema);
+        self::assertEquals($dataByParametersSchema, $dataBySwaggerSchema);
     }
 
     /**
@@ -83,6 +83,6 @@ class RequestParametersTest extends TestCase
         $requestParameters = new RequestParameters($request);
         $dataBySwaggerSchema = $requestParameters->getDataBySwaggerSchema($swaggerSchema);
 
-        $this->assertEmpty((array) $dataBySwaggerSchema);
+        self::assertEmpty((array) $dataBySwaggerSchema);
     }
 }

@@ -5,7 +5,7 @@ namespace Absolvent\swagger\tests\Unit;
 use Absolvent\swagger\SwaggerSchema;
 use Absolvent\swagger\SwaggerValidator\HttpRequest as HttpRequestValidator;
 use Absolvent\swagger\SwaggerValidator\HttpResponse as HttpResponseValidator;
-use Absolvent\swagger\tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +14,7 @@ class SwaggerValidatorTest extends TestCase
     public function provideRequestResponse()
     {
         yield 'valid request-response' => [
-            'fixtureFilename' => 'fixtures/petstore.yml',
+            'fixtureFilename' => __DIR__.'/../../fixtures/petstore.yml',
             'request' => Request::create('http://example.com/api/pet', 'GET'),
             'isRequestValid' => true,
             'response' => Response::create(json_encode([
@@ -27,7 +27,7 @@ class SwaggerValidatorTest extends TestCase
         ];
 
         yield 'extra field' => [
-            'fixtureFilename' => 'fixtures/petstore.yml',
+            'fixtureFilename' => __DIR__.'/../../fixtures/petstore.yml',
             'request' => Request::create('http://example.com/api/pet', 'GET'),
             'isRequestValid' => true,
             'response' => Response::create(json_encode([
@@ -40,7 +40,7 @@ class SwaggerValidatorTest extends TestCase
         ];
 
         yield 'type coercion' => [
-            'fixtureFilename' => 'fixtures/petstore.yml',
+            'fixtureFilename' => __DIR__.'/../../fixtures/petstore.yml',
             'request' => Request::create('http://example.com/api/pet', 'GET'),
             'isRequestValid' => true,
             'response' => Response::create(json_encode([
@@ -57,7 +57,7 @@ class SwaggerValidatorTest extends TestCase
         ];
 
         yield 'at least one item' => [
-            'fixtureFilename' => 'fixtures/petstore.yml',
+            'fixtureFilename' => __DIR__.'/../../fixtures/petstore.yml',
             'request' => Request::create('http://example.com/api/pet', 'GET'),
             'isRequestValid' => true,
             'response' => Response::create(json_encode([]), 200),
@@ -65,7 +65,7 @@ class SwaggerValidatorTest extends TestCase
         ];
 
         yield 'valid input parameters' => [
-            'fixtureFilename' => 'fixtures/petstore-expanded.yml',
+            'fixtureFilename' => __DIR__.'/../../fixtures/petstore-expanded.yml',
             'request' => Request::create('http://petstore.swagger.io/api/pets', 'GET', [
                 'tags' => ['a', 'b'],
                 'limit' => 0,
@@ -76,7 +76,7 @@ class SwaggerValidatorTest extends TestCase
         ];
 
         yield 'invalid input parameters' => [
-            'fixtureFilename' => 'fixtures/petstore-expanded.yml',
+            'fixtureFilename' => __DIR__.'/../../fixtures/petstore-expanded.yml',
             'request' => Request::create('http://petstore.swagger.io/api/pets', 'GET', [
                 'limit' => 'foo',
             ]),
@@ -95,17 +95,17 @@ class SwaggerValidatorTest extends TestCase
      */
     public function testThatDataIsValidated(string $fixtureFilename, Request $request, bool $isRequestValid, Response $response, bool $isResponseValid)
     {
-        $swaggerSchema = SwaggerSchema::fromFilename(base_path($fixtureFilename));
+        $swaggerSchema = SwaggerSchema::fromFilename($fixtureFilename);
 
         $requestValidator = (new HttpRequestValidator($request))->validateAgainst($swaggerSchema);
-        $this->assertSame(
+        self::assertSame(
             $isRequestValid,
             $requestValidator->isValid(),
             'Request is invalid: '.$requestValidator->getException()->getMessage()
         );
 
         $responseValidator = (new HttpResponseValidator($request, $response))->validateAgainst($swaggerSchema);
-        $this->assertSame(
+        self::assertSame(
             $isResponseValid,
             $responseValidator->isValid(),
             'Response is invalid: '.$responseValidator->getException()->getMessage()

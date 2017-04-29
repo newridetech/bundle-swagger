@@ -3,7 +3,7 @@
 namespace Absolvent\swagger\tests\Unit;
 
 use Absolvent\swagger\RequestParameter;
-use Absolvent\swagger\tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -71,7 +71,7 @@ class RequestParameterTest extends TestCase
     {
         $requestParameter = new RequestParameter($request);
 
-        $this->assertEquals($expectedValue, $requestParameter->getData($requestParameterSchema));
+        self::assertEquals($expectedValue, $requestParameter->getData($requestParameterSchema));
     }
 
     /**
@@ -100,7 +100,7 @@ class RequestParameterTest extends TestCase
         ];
 
         $default = 'baz';
-        $this->assertEquals(
+        self::assertEquals(
             $default,
             $requestParameter->getData($requestParameterSchema, $default)
         );

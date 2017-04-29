@@ -3,7 +3,7 @@
 namespace Absolvent\swagger\tests\Unit;
 
 use Absolvent\swagger\SwaggerSchema;
-use Absolvent\swagger\tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -11,7 +11,7 @@ class SwaggerSchemaTest extends TestCase
 {
     public function testThatSwaggerSchemaIsCreated(): SwaggerSchema
     {
-        return SwaggerSchema::fromFilename(base_path('fixtures/petstore-expanded.yml'));
+        return SwaggerSchema::fromFilename(__DIR__.'/../../fixtures/petstore-expanded.yml');
     }
 
     /**
@@ -19,7 +19,7 @@ class SwaggerSchemaTest extends TestCase
      */
     public function testThatBasePathIsFetched(SwaggerSchema $swaggerSchema)
     {
-        $this->assertEquals('/api', $swaggerSchema->get('basePath'));
+        self::assertEquals('/api', $swaggerSchema->get('basePath'));
     }
 
     /**
@@ -29,9 +29,9 @@ class SwaggerSchemaTest extends TestCase
     {
         $request = Request::create('http://example.com/api/pets', 'GET');
         $schema = $swaggerSchema->findRequestMethodSchemaByHttpRequest($request);
-        $this->assertTrue($schema->has('description'));
-        $this->assertTrue($schema->has('operationId'));
-        $this->assertTrue($schema->has('responses'));
+        self::assertTrue($schema->has('description'));
+        self::assertTrue($schema->has('operationId'));
+        self::assertTrue($schema->has('responses'));
     }
 
     /**
@@ -41,7 +41,7 @@ class SwaggerSchemaTest extends TestCase
     {
         $request = Request::create('http://example.com/api/pets', 'GET');
         $schema = $swaggerSchema->findRequestPathSchemaByHttpRequest($request);
-        $this->assertTrue($schema->has('get'));
+        self::assertTrue($schema->has('get'));
     }
 
     /**
@@ -52,9 +52,9 @@ class SwaggerSchemaTest extends TestCase
         $request = Request::create('http://example.com/api/pets', 'GET');
         $schema = $swaggerSchema->findRequestParametersSchemaByHttpRequest($request);
 
-        $this->assertTrue($schema->has(0));
-        $this->assertObjectHasAttribute('name', $schema->get(0));
-        $this->assertObjectHasAttribute('description', $schema->get(0));
+        self::assertTrue($schema->has(0));
+        self::assertObjectHasAttribute('name', $schema->get(0));
+        self::assertObjectHasAttribute('description', $schema->get(0));
     }
 
     /**
@@ -71,8 +71,8 @@ class SwaggerSchemaTest extends TestCase
         ]), 200);
 
         $schema = $swaggerSchema->findResponseSchemaByHttpResponse($request, $response);
-        $this->assertTrue($schema->has('type'));
-        $this->assertTrue($schema->has('items'));
+        self::assertTrue($schema->has('type'));
+        self::assertTrue($schema->has('items'));
     }
 
     /**
