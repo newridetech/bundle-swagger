@@ -27,7 +27,9 @@ class RequestParameter
             // case 'path':
 
             case 'body':
-                return $this->request->request;
+                $payload = json_decode($this->request->getContent(), $asArray = true);
+
+                return new ParameterBag($payload);
             case 'formData':
                 return $this->getRequestFormDataParameterBag();
             case 'header':

@@ -88,6 +88,19 @@ class SwaggerValidatorTest extends TestCase
             ]), 500),
             'isResponseValid' => true,
         ];
+
+        yield 'body parameters' => [
+            'fixtureFilename' => __DIR__.'/../../fixtures/petstore-expanded.yml',
+            'request' => Request::create('http://petstore.swagger.io/api/pets', 'POST', [], [], [], [], json_encode([
+                'pet' => [
+                    'name' => 'foo',
+                    'tag' => 'bar',
+                ],
+            ])),
+            'isRequestValid' => true,
+            'response' => Response::create(json_encode([]), 200),
+            'isResponseValid' => true,
+        ];
     }
 
     /**

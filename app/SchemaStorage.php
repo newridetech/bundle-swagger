@@ -34,6 +34,15 @@ class SchemaStorage extends BaseSchemaStorage
             ));
         }
 
+        if (starts_with($ref, self::FILE_PROVIDED_SCHEMA_URI_DEFINITIONS)) {
+            // in this case the schema is nested in definitions list
+            return static::resolveRef(str_replace(
+                self::FILE_PROVIDED_SCHEMA_URI_DEFINITIONS,
+                self::INTERNAL_PROVIDED_SCHEMA_URI,
+                $ref
+            ));
+        }
+
         return parent::resolveRef($ref);
     }
 }

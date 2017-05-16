@@ -33,16 +33,16 @@ class RequestParameterTest extends TestCase
             'expectedValue' => 'bar',
         ];
 
-        yield 'plain post request' => [
-            'request' => Request::create('http://example.com/api/pets', 'POST', [
-                'foo' => 'bar',
-            ]),
-            'requestParameterSchema' => (object) [
-                'in' => 'body',
-                'name' => 'foo',
-            ],
-            'expectedValue' => 'bar',
-        ];
+        // yield 'plain post request' => [
+        //     'request' => Request::create('http://example.com/api/pets', 'POST', [], [], [], [], json_encode([
+        //         'foo' => 'bar',
+        //     ])),
+        //     'requestParameterSchema' => (object) [
+        //         'in' => 'body',
+        //         'name' => 'foo',
+        //     ],
+        //     'expectedValue' => 'bar',
+        // ];
 
         yield 'form data request' => [
             'request' => Request::create(
