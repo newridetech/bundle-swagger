@@ -50,8 +50,7 @@ class RequestParameter
 
     public function getRequestFormDataParameterBag(): ParameterBag
     {
-        $parameters = json_decode($this->request->getContent(), true);
-
+        $parameters = $this->request->request->all();
         return new ParameterBag($parameters);
     }
 
