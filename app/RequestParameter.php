@@ -50,8 +50,9 @@ class RequestParameter
 
     public function getRequestFormDataParameterBag(): ParameterBag
     {
-        $parameters = $this->request->request->all();
-        return new ParameterBag($parameters);
+        $fileParameters = $this->request->files->all();
+        $dataParameters = $this->request->request->all();
+        return new ParameterBag(array_merge($fileParameters, $dataParameters));
     }
 
     public function hasValue(stdClass $requestParameterSchema): bool
