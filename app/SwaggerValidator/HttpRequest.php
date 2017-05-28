@@ -39,7 +39,14 @@ class HttpRequest extends SwaggerValidator
     private static function validateRequestParameterSchema(Request $request, $validator, stdClass $requestParameterSchema)
     {
         $data = (new RequestParameter($request))->getData($requestParameterSchema);
-        $validator->validate($data, $requestParameterSchema);
+
+        if (isset($requestParameterSchema->schema)) {
+            $jsonSchema = $requestParameterSchema->schema;
+        } else {
+            $jsonSchema = $requestParameterSchema;
+        }
+
+        $validator->validate($data, $jsonSchema);
 
         return $validator;
     }
