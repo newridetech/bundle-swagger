@@ -39,6 +39,7 @@ class HttpRequest extends SwaggerValidator
     private static function validateRequestParameterSchema(Request $request, $validator, stdClass $requestParameterSchema)
     {
         $data = (new RequestParameter($request))->getData($requestParameterSchema);
+        $data = json_decode(json_encode($data));
 
         if (isset($requestParameterSchema->schema)) {
             $jsonSchema = $requestParameterSchema->schema;
@@ -46,7 +47,11 @@ class HttpRequest extends SwaggerValidator
             $jsonSchema = $requestParameterSchema;
         }
 
-        $validator->validate($data, $jsonSchema);
+        $required = isset($requestParameterSchema->required) ? $requestParameterSchema->required : true;
+
+        if ($required || $data !== null) {
+            $validator->validate($data, $jsonSchema);
+        }
 
         return $validator;
     }

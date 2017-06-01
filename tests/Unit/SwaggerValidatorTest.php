@@ -15,7 +15,7 @@ class SwaggerValidatorTest extends TestCase
     {
         yield 'valid request-response' => [
             'fixtureFilename' => __DIR__.'/../../fixtures/petstore.yml',
-            'request' => Request::create('http://example.com/api/pet', 'GET'),
+            'request' => Request::create('http://example.com/api/pet', 'GET', ['filter' => '123']),
             'isRequestValid' => true,
             'response' => Response::create(json_encode([
                 [
@@ -23,6 +23,18 @@ class SwaggerValidatorTest extends TestCase
                     'pet_name' => 'test',
                 ],
             ]), 200),
+            'isResponseValid' => true,
+        ];
+
+        yield 'invalid request parameter type' => [
+            'fixtureFilename' => __DIR__.'/../../fixtures/petstore.yml',
+            'request' => Request::create('http://example.com/api/pet', 'GET', ['filter' => 123]),
+            'isRequestValid' => false,
+            'response' => Response::create(json_encode([
+                'code' => 1,
+                'message' => 'some error',
+                'fields' => ['string fields'],
+            ]), 500),
             'isResponseValid' => true,
         ];
 
@@ -62,6 +74,21 @@ class SwaggerValidatorTest extends TestCase
             'isRequestValid' => true,
             'response' => Response::create(json_encode([]), 200),
             'isResponseValid' => false,
+        ];
+
+        yield 'body post json' => [
+            'fixtureFilename' => __DIR__.'/../../fixtures/petstore.yml',
+            'request' => Request::create('http://example.com/api/pet', 'POST', [], [], [], [], json_encode([
+                'body' => [
+                    'pet_name' => 'foo',
+                ],
+            ])),
+            'isRequestValid' => true,
+            'response' => Response::create(json_encode([
+                'pet_id' => 123,
+                'pet_name' => 'foo',
+            ]), 200),
+            'isResponseValid' => true,
         ];
 
         yield 'valid input parameters' => [

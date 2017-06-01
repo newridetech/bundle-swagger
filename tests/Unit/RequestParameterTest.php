@@ -33,28 +33,28 @@ class RequestParameterTest extends TestCase
             'expectedValue' => 'bar',
         ];
 
-        // yield 'plain post request' => [
-        //     'request' => Request::create('http://example.com/api/pets', 'POST', [], [], [], [], json_encode([
-        //         'foo' => 'bar',
-        //     ])),
-        //     'requestParameterSchema' => (object) [
-        //         'in' => 'body',
-        //         'name' => 'foo',
-        //     ],
-        //     'expectedValue' => 'bar',
-        // ];
+         yield 'plain post request' => [
+             'request' => Request::create('http://example.com/api/pets', 'POST', [], [], [], [], json_encode([
+                 'foo' => 'bar',
+             ])),
+             'requestParameterSchema' => (object) [
+                 'in' => 'body',
+                 'name' => 'foo',
+             ],
+             'expectedValue' => 'bar',
+         ];
 
         yield 'form data request' => [
             'request' => Request::create(
                 'http://example.com/api/pets',
                 'POST',
-                $parameters = [],
+                $parameters = [
+                    'foo' => 'bar'
+                ],
                 $cookies = [],
                 $files = [],
                 $server = [],
-                json_encode([
-                    'foo' => 'bar',
-                ])
+                ''
             ),
             'requestParameterSchema' => (object) [
                 'in' => 'formData',
@@ -66,6 +66,9 @@ class RequestParameterTest extends TestCase
 
     /**
      * @dataProvider provideRequestParameters
+     * @param Request $request
+     * @param stdClass $requestParameterSchema
+     * @param $expectedValue
      */
     public function testThatQueryParameterDataIsObtained(Request $request, stdClass $requestParameterSchema, $expectedValue)
     {

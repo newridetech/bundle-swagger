@@ -58,6 +58,7 @@ class SwaggerSchemaRequestMethodsTest extends TestCase
         self::assertContainsOnlyInstancesOf(RequestMethodBreadcrumbs::class, $breadcrumbsList);
         self::assertEquals([
             'paths./pet.get',
+            'paths./pet.post',
         ], array_map('strval', $breadcrumbsList));
     }
 }
