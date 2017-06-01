@@ -22,15 +22,58 @@ paths:
       description: "Returns all pets from the system that the pet has access to"
       produces:
         - "application/json"
+      parameters:
+        - in: query
+          name: filter
+          description: ""
+          required: false
+          schema:
+            type: string
       responses:
-        "200":
+        200:
           description: "A list of pets."
           schema:
             type: "array"
             items:
               $ref: "#/definitions/Pet"
             minItems: 1
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      description: "Create new pet"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: body
+          description: ""
+          required: true
+          schema:
+            $ref: "#/definitions/PetCreate"
+      responses:
+        200:
+          description: "A list of pets."
+          schema:
+            $ref: "#/definitions/Pet"
 definitions:
+  Error:
+    type: object
+    required:
+      - code
+      - message
+      - fields
+    properties:
+      code:
+        type: integer
+        format: int64
+      message:
+        type: string
+      fields:
+        type: array
+        items:
+          type: string
   Pet:
     type: "object"
     required:
@@ -43,3 +86,11 @@ definitions:
         format: "int64"
       pet_name:
         type: "string"
+  PetCreate:
+    type: object
+    required:
+      - pet_name
+    additionalProperties: false
+    properties:
+      pet_name:
+        type: string
