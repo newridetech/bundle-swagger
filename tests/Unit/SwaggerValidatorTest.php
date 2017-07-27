@@ -6,6 +6,7 @@ use Absolvent\swagger\SwaggerSchema;
 use Absolvent\swagger\SwaggerValidator\HttpRequest as HttpRequestValidator;
 use Absolvent\swagger\SwaggerValidator\HttpResponse as HttpResponseValidator;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -138,6 +139,34 @@ class SwaggerValidatorTest extends TestCase
             ])),
             'isRequestValid' => false,
             'response' => Response::create(json_encode([]), 200),
+            'isResponseValid' => true,
+        ];
+
+        yield 'post file' => [
+            'fixtureFilename' => __DIR__.'/../../fixtures/petstore.yml',
+            'request' => Request::create('http://petstore.swagger.io/api/pet/photo', 'POST', [
+                'pet_id' => 1,
+            ], [], [
+                'photo' => new UploadedFile(__DIR__.'/../../fixtures/petstore.yml', 'views/welcome.blade.php'),
+            ]),
+            'isRequestValid' => true,
+            'response' => Response::create(json_encode([
+                'pet_id' => 1,
+                'photo_url' => 'http://petstore.swagger.io/pets/img.png',
+            ]), 200),
+            'isResponseValid' => true,
+        ];
+
+        yield 'post file missing' => [
+            'fixtureFilename' => __DIR__.'/../../fixtures/petstore.yml',
+            'request' => Request::create('http://petstore.swagger.io/api/pet/photo', 'POST', [
+                'pet_id' => 1,
+            ], []),
+            'isRequestValid' => false,
+            'response' => Response::create(json_encode([
+                'pet_id' => 1,
+                'photo_url' => 'http://petstore.swagger.io/pets/img.png',
+            ]), 200),
             'isResponseValid' => true,
         ];
     }

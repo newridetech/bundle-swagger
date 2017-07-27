@@ -57,6 +57,39 @@ paths:
           description: "A list of pets."
           schema:
             $ref: "#/definitions/Pet"
+  /pet/photo:
+    post:
+      description: "Upload pet photo"
+      produces:
+        - "application/json"
+      consumes:
+        - "multipart/form-data"
+      parameters:
+        - in: formData
+          name: photo
+          description: "The photo"
+          required: true
+          type: file
+        - in: formData
+          name: pet_id
+          description: "pet id"
+          required: true
+          type: integer
+          format: int64
+          minimum: 0
+      responses:
+        200:
+          description: "Pet photo information"
+          schema:
+            type: object
+            required: [pet_id, photo_url]
+            properties:
+              pet_id:
+                type: integer
+                format: int64
+                minimum: 0
+              photo_url:
+                type: string
 definitions:
   Error:
     type: object
