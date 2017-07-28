@@ -59,6 +59,7 @@ class SwaggerSchemaRequestMethodsTest extends TestCase
         self::assertEquals([
             'paths./pet.get',
             'paths./pet.post',
+            'paths./pet/photo.post',
         ], array_map('strval', $breadcrumbsList));
     }
 }
