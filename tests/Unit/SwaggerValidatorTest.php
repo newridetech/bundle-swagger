@@ -169,10 +169,30 @@ class SwaggerValidatorTest extends TestCase
             ]), 200),
             'isResponseValid' => true,
         ];
+
+        yield 'post json along with file' => [
+            'fixtureFilename' => __DIR__.'/../../fixtures/petstore-expanded.yml',
+            'request' => Request::create('http://petstore.swagger.io/api/pet', 'POST', [
+                'pet' => json_encode([
+                    'name' => 'foo',
+                    'tag' => 'bar',
+                ]),
+            ], [], [
+                'image' => new UploadedFile(__DIR__.'/../../fixtures/petstore-expanded.yml', 'views/welcome.blade.php'),
+            ]),
+            'isRequestValid' => true,
+            'response' => Response::create(json_encode([]), 200),
+            'isResponseValid' => true,
+        ];
     }
 
     /**
      * @dataProvider provideRequestResponse
+     * @param string $fixtureFilename
+     * @param Request $request
+     * @param bool $isRequestValid
+     * @param Response $response
+     * @param bool $isResponseValid
      */
     public function testThatDataIsValidated(string $fixtureFilename, Request $request, bool $isRequestValid, Response $response, bool $isResponseValid)
     {

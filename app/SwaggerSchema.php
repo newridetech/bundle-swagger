@@ -32,6 +32,11 @@ class SwaggerSchema extends Data
         return new static(json_decode(json_encode($schema), true), $filename);
     }
 
+    public static function refToPath(string $ref): string
+    {
+        return str_replace('/', '.', str_replace_first('#/', '', $ref));
+    }
+
     public function __construct($schema, string $filename)
     {
         parent::__construct($schema);
@@ -138,6 +143,11 @@ class SwaggerSchema extends Data
         $ret = json_decode(json_encode($ret));
 
         return $ret;
+    }
+
+    public function getByRef(string $ref)
+    {
+        return $this->get(self::refToPath($ref));
     }
 
     public function hasRequestParametersSchemaByHttpRequest(Request $request): bool
