@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 class HttpRequest extends SwaggerValidator
 {
     public $request;
+    /** @var SwaggerSchema */
+    private $schema;
 
     public function __construct(Request $request)
     {
@@ -23,6 +25,8 @@ class HttpRequest extends SwaggerValidator
 
     public function validateAgainst(SwaggerSchema $schema): SwaggerValidationResult
     {
+        $this->schema = $schema;
+
         if ($schema->hasRequestParametersSchemaByHttpRequest($this->request)) {
             $requestParametersSchema = $schema->findRequestParametersSchemaByHttpRequest($this->request);
         } else {
@@ -31,47 +35,76 @@ class HttpRequest extends SwaggerValidator
 
         $validator = (new JsonSchemaValidatorBuilder($schema))->createJsonSchemaValidator();
         $schemaValidationResultList = array_map(function (stdClass $requestParameterSchema) use ($validator) {
-            return static::validateRequestParameterSchema($this->request, $validator, $requestParameterSchema);
+            return $this->validateRequestParameterSchema($validator, $requestParameterSchema);
         }, $requestParametersSchema->export());
 
         return SwaggerValidationResult::fromJsonSchemaValidatorList($schemaValidationResultList);
     }
 
     /**
-     * @param Request $request
      * @param \JsonSchema\Validator $validator
      * @param stdClass $requestParameterSchema
      * @return mixed
      */
-    private static function validateRequestParameterSchema(Request $request, $validator, stdClass $requestParameterSchema)
+    private function validateRequestParameterSchema($validator, stdClass $requestParameterSchema)
     {
-        $data = (new RequestParameter($request))->getData($requestParameterSchema);
+        $data = (new RequestParameter($this->request))->getData($requestParameterSchema);
 
-        if (isset($requestParameterSchema->schema)) {
-            $jsonSchema = $requestParameterSchema->schema;
-        } else {
-            $jsonSchema = $requestParameterSchema;
-        }
+        $jsonSchema = $this->getJsonSchema($requestParameterSchema);
 
-        $required = isset($requestParameterSchema->required) ? $requestParameterSchema->required : true;
+        $required = $this->getIsRequired($requestParameterSchema);
 
-        if (($requestParameterSchema->type ?? null) === 'file') {
-            if (($required || $data !== null) && !$data instanceof UploadedFile) {
-                $validator->addErrors([
-                    [
-                        'property' => $requestParameterSchema->name,
-                        'pointer' => $requestParameterSchema->name,
-                        'message' => "Parameter `{$requestParameterSchema->name}` is invalid file",
-                        'constraint' => 'file',
-                        'context' => 0,
-                    ],
-                ]);
+        if ($required || $data !== null) {
+            if ($this->isParamFile($requestParameterSchema)) {
+                if (!$data instanceof UploadedFile) {
+                    $validator->addErrors([
+                        [
+                            'property' => $requestParameterSchema->name,
+                            'pointer' => $requestParameterSchema->name,
+                            'message' => "Parameter `{$requestParameterSchema->name}` is invalid file",
+                            'constraint' => 'file',
+                            'context' => 0,
+                        ],
+                    ]);
+                }
+            } else {
+                if ($this->isParamFormDataObject($requestParameterSchema, $data)) {
+                    $jsonDecoded = json_decode($data, true);
+                    if ($jsonDecoded !== null) {
+                        $this->request->request->set($requestParameterSchema->name, $jsonDecoded);
+                        $data = json_decode($data);
+                    }
+                } else {
+                    $data = json_decode(json_encode($data));
+                }
+                $validator->validate($data, $jsonSchema);
             }
-        } else if ($required || $data !== null) {
-            $data = json_decode(json_encode($data));
-            $validator->validate($data, $jsonSchema);
         }
 
         return $validator;
+    }
+
+    private function isParamFormDataObject($requestParameterSchema, $data): bool
+    {
+        $jsonSchema = $this->getJsonSchema($requestParameterSchema);
+        if ($jsonSchema->{'$ref'} ?? null) {
+            $jsonSchema = $this->schema->getByRef($jsonSchema->{'$ref'});
+        }
+        return $requestParameterSchema->in === 'formData' && ($jsonSchema->type ?? null) === 'object' && is_string($data);
+    }
+
+    private function isParamFile($requestParameterSchema): bool
+    {
+        return ($requestParameterSchema->type ?? null) === 'file';
+    }
+
+    private function getJsonSchema($requestParameterSchema)
+    {
+        return isset($requestParameterSchema->schema) ? $requestParameterSchema->schema : $requestParameterSchema;
+    }
+
+    private function getIsRequired($requestParameterSchema): bool
+    {
+        return isset($requestParameterSchema->required) ? $requestParameterSchema->required : true;
     }
 }
