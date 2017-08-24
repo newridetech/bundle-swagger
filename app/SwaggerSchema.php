@@ -5,7 +5,7 @@ namespace Absolvent\swagger;
 use Absolvent\swagger\Breadcrumbs\RequestPath as RequestPathBreadcrumbs;
 use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
 use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod\ResponsePath as ResponsePathBreadcrumbs;
-use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod\Requestparameters as RequestparametersBreadcrumbs;
+use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod\RequestParameters as RequestParametersBreadcrumbs;
 use Absolvent\swagger\Exception\SchemaPartNotFound;
 use Absolvent\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
 use Dflydev\DotAccessData\Data;
@@ -86,7 +86,7 @@ class SwaggerSchema extends Data
     public function findRequestParametersBreadcrumbsByHttpRequest(Request $request): RequestParametersBreadcrumbs
     {
         $breadcrumbs = $this->findRequestMethodBreadcrumbsByHttpRequest($request);
-        $breadcrumbs = RequestparametersBreadcrumbs::fromBreadcrumbs($breadcrumbs);
+        $breadcrumbs = RequestParametersBreadcrumbs::fromBreadcrumbs($breadcrumbs);
         $breadcrumbs->breadcrumbs[] = 'parameters';
 
         return $breadcrumbs;
