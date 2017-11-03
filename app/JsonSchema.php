@@ -1,6 +1,6 @@
 <?php
 
-namespace Absolvent\swagger;
+namespace Newride\swagger;
 
 use Dflydev\DotAccessData\Data;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Absolvent\swagger\Http\Controllers\Auth;
+namespace Newride\swagger\Http\Controllers\Auth;
 
-use Absolvent\swagger\User;
-use Absolvent\swagger\Http\Controllers\Controller;
+use Newride\swagger\User;
+use Newride\swagger\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 

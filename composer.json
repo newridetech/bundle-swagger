@@ -1,5 +1,5 @@
 {
-    "name": "absolvent/bundle-swagger",
+    "name": "newride/bundle-swagger",
     "description": "",
     "keywords": [],
     "license": "MIT",
@@ -20,9 +20,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Absolvent\\swagger\\": "app/",
-            "Absolvent\\swagger\\database\\": "database/",
-            "Absolvent\\swagger\\tests\\": "tests/"
+            "Newride\\swagger\\": "app/",
+            "Newride\\swagger\\database\\": "database/",
+            "Newride\\swagger\\tests\\": "tests/"
         }
     },
     "scripts": {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod;
+namespace Newride\swagger\Breadcrumbs\RequestPath\RequestMethod;
 
-use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod;
+use Newride\swagger\Breadcrumbs\RequestPath\RequestMethod;
 
 class RequestParameters extends RequestMethod
 {

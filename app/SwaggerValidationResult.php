@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger;
+namespace Newride\swagger;
 
-use Absolvent\swagger\Exception\SwaggerValidation as SwaggerValidationException;
+use Newride\swagger\Exception\SwaggerValidation as SwaggerValidationException;
 use JsonSchema\Validator;
 use Throwable;
 

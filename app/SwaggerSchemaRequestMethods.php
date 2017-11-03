@@ -1,10 +1,10 @@
 <?php
 
-namespace Absolvent\swagger;
+namespace Newride\swagger;
 
-use Absolvent\swagger\Exception\SchemaPartIsEmpty;
-use Absolvent\swagger\Exception\SchemaPartNotFound;
-use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
+use Newride\swagger\Exception\SchemaPartIsEmpty;
+use Newride\swagger\Exception\SchemaPartNotFound;
+use Newride\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
 
 class SwaggerSchemaRequestMethods
 {

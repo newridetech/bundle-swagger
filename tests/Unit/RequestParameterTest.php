@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger\tests\Unit;
+namespace Newride\swagger\tests\Unit;
 
-use Absolvent\swagger\RequestParameter;
+use Newride\swagger\RequestParameter;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,7 +78,7 @@ class RequestParameterTest extends TestCase
     }
 
     /**
-     * @expectedException \Absolvent\swagger\Exception\SwaggerUnexpectedFieldValue\In
+     * @expectedException \Newride\swagger\Exception\SwaggerUnexpectedFieldValue\In
      * @expectedExceptionMessage foo
      */
     public function testThatUnknownInFieldThrowsException()

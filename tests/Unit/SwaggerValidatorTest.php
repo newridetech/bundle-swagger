@@ -1,10 +1,10 @@
 <?php
 
-namespace Absolvent\swagger\tests\Unit;
+namespace Newride\swagger\tests\Unit;
 
-use Absolvent\swagger\SwaggerSchema;
-use Absolvent\swagger\SwaggerValidator\HttpRequest as HttpRequestValidator;
-use Absolvent\swagger\SwaggerValidator\HttpResponse as HttpResponseValidator;
+use Newride\swagger\SwaggerSchema;
+use Newride\swagger\SwaggerValidator\HttpRequest as HttpRequestValidator;
+use Newride\swagger\SwaggerValidator\HttpResponse as HttpResponseValidator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;

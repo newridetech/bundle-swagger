@@ -171,11 +171,11 @@ return [
         /*
          * Application Service Providers...
          */
-        Absolvent\swagger\Providers\AppServiceProvider::class,
-        Absolvent\swagger\Providers\AuthServiceProvider::class,
-        // Absolvent\swagger\Providers\BroadcastServiceProvider::class,
-        Absolvent\swagger\Providers\EventServiceProvider::class,
-        Absolvent\swagger\Providers\RouteServiceProvider::class,
+        Newride\swagger\Providers\AppServiceProvider::class,
+        Newride\swagger\Providers\AuthServiceProvider::class,
+        // Newride\swagger\Providers\BroadcastServiceProvider::class,
+        Newride\swagger\Providers\EventServiceProvider::class,
+        Newride\swagger\Providers\RouteServiceProvider::class,
 
     ],
 

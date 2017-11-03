@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger\Http\Controllers\Auth;
+namespace Newride\swagger\Http\Controllers\Auth;
 
-use Absolvent\swagger\Http\Controllers\Controller;
+use Newride\swagger\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller

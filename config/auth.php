@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Absolvent\swagger\User::class,
+            'model' => Newride\swagger\User::class,
         ],
 
         // 'users' => [

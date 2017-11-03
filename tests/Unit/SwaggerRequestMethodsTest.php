@@ -1,10 +1,10 @@
 <?php
 
-namespace Absolvent\swagger\tests\Unit;
+namespace Newride\swagger\tests\Unit;
 
-use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
-use Absolvent\swagger\SwaggerRequestMethods;
-use Absolvent\swagger\SwaggerSchema;
+use Newride\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
+use Newride\swagger\SwaggerRequestMethods;
+use Newride\swagger\SwaggerSchema;
 use PHPUnit\Framework\TestCase;
 
 class SwaggerRequestMethodsTest extends TestCase

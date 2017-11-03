@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger\tests\Unit;
+namespace Newride\swagger\tests\Unit;
 
-use Absolvent\swagger\RelativePath;
+use Newride\swagger\RelativePath;
 use PHPUnit\Framework\TestCase;
 
 class RelativePathTest extends TestCase

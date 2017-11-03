@@ -1,6 +1,6 @@
 <?php
 
-namespace Absolvent\swagger;
+namespace Newride\swagger;
 
 use JsonSchema\SchemaStorage as BaseSchemaStorage;
 use JsonSchema\UriResolverInterface;

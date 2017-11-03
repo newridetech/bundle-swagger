@@ -1,6 +1,6 @@
 <?php
 
-namespace Absolvent\swagger\Exception;
+namespace Newride\swagger\Exception;
 
 use Throwable;
 use UnexpectedValueException;

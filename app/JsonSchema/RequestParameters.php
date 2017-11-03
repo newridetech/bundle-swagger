@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger\JsonSchema;
+namespace Newride\swagger\JsonSchema;
 
-use Absolvent\swagger\JsonSchema;
+use Newride\swagger\JsonSchema;
 use ArrayIterator;
 use Iterator;
 use IteratorAggregate;

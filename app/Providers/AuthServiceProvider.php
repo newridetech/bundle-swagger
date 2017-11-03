@@ -1,6 +1,6 @@
 <?php
 
-namespace Absolvent\swagger\Providers;
+namespace Newride\swagger\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 

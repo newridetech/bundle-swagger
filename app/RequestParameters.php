@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger;
+namespace Newride\swagger;
 
-use Absolvent\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
+use Newride\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
 use Illuminate\Http\Request;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger\Breadcrumbs\RequestPath;
+namespace Newride\swagger\Breadcrumbs\RequestPath;
 
-use Absolvent\swagger\Breadcrumbs\RequestPath;
+use Newride\swagger\Breadcrumbs\RequestPath;
 
 class RequestMethod extends RequestPath
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Absolvent\swagger\tests\Unit\Exception;
+namespace Newride\swagger\tests\Unit\Exception;
 
-use Absolvent\swagger\Breadcrumbs;
-use Absolvent\swagger\Exception\SchemaPartNotFound;
+use Newride\swagger\Breadcrumbs;
+use Newride\swagger\Exception\SchemaPartNotFound;
 use PHPUnit\Framework\TestCase;
 
 class SchemaPartNotFoundTest extends TestCase

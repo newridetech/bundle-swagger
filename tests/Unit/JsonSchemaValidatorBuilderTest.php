@@ -1,9 +1,9 @@
 <?php
 
-namespace Absolvent\swagger\tests\Unit;
+namespace Newride\swagger\tests\Unit;
 
-use Absolvent\swagger\JsonSchemaValidatorBuilder;
-use Absolvent\swagger\SwaggerSchema;
+use Newride\swagger\JsonSchemaValidatorBuilder;
+use Newride\swagger\SwaggerSchema;
 use JsonSchema\Validator;
 use PHPUnit\Framework\TestCase;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Absolvent\swagger\SwaggerValidator;
+namespace Newride\swagger\SwaggerValidator;
 
-use Absolvent\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
-use Absolvent\swagger\JsonSchemaValidatorBuilder;
-use Absolvent\swagger\RequestParameter;
-use Absolvent\swagger\SwaggerSchema;
-use Absolvent\swagger\SwaggerValidationResult;
-use Absolvent\swagger\SwaggerValidator;
+use Newride\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
+use Newride\swagger\JsonSchemaValidatorBuilder;
+use Newride\swagger\RequestParameter;
+use Newride\swagger\SwaggerSchema;
+use Newride\swagger\SwaggerValidationResult;
+use Newride\swagger\SwaggerValidator;
 use stdClass;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;

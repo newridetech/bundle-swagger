@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger;
+namespace Newride\swagger;
 
-use Absolvent\swagger\Exception\SwaggerUnexpectedFieldValue\In as SwaggerUnexpectedFieldValueInException;
+use Newride\swagger\Exception\SwaggerUnexpectedFieldValue\In as SwaggerUnexpectedFieldValueInException;
 use stdClass;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;

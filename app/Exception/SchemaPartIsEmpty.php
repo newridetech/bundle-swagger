@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger\Exception;
+namespace Newride\swagger\Exception;
 
-use Absolvent\swagger\Breadcrumbs;
+use Newride\swagger\Breadcrumbs;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class SchemaPartIsEmpty extends BadRequestHttpException

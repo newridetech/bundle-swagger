@@ -1,10 +1,10 @@
 <?php
 
-namespace Absolvent\swagger\tests\Unit;
+namespace Newride\swagger\tests\Unit;
 
-use Absolvent\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
-use Absolvent\swagger\RequestParameters;
-use Absolvent\swagger\SwaggerSchema;
+use Newride\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
+use Newride\swagger\RequestParameters;
+use Newride\swagger\SwaggerSchema;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 

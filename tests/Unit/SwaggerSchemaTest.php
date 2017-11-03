@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger\tests\Unit;
+namespace Newride\swagger\tests\Unit;
 
-use Absolvent\swagger\SwaggerSchema;
+use Newride\swagger\SwaggerSchema;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,7 +77,7 @@ class SwaggerSchemaTest extends TestCase
 
     /**
      * @depends testThatSwaggerSchemaIsCreated
-     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound
+     * @expectedException \Newride\swagger\Exception\SchemaPartNotFound
      */
     public function testThatMissingPathIsHandled(SwaggerSchema $swaggerSchema)
     {
@@ -88,7 +88,7 @@ class SwaggerSchemaTest extends TestCase
 
     /**
      * @depends testThatSwaggerSchemaIsCreated
-     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound
+     * @expectedException \Newride\swagger\Exception\SchemaPartNotFound
      */
     public function testThatMissingMethodIsHandled(SwaggerSchema $swaggerSchema)
     {
@@ -99,7 +99,7 @@ class SwaggerSchemaTest extends TestCase
 
     /**
      * @depends testThatSwaggerSchemaIsCreated
-     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound
+     * @expectedException \Newride\swagger\Exception\SchemaPartNotFound
      */
     public function testThatMissingParametersIsHandled(SwaggerSchema $swaggerSchema)
     {
@@ -109,7 +109,7 @@ class SwaggerSchemaTest extends TestCase
 
     /**
      * @depends testThatSwaggerSchemaIsCreated
-     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound
+     * @expectedException \Newride\swagger\Exception\SchemaPartNotFound
      */
     public function testThatMissingStatusCodeIsHandled(SwaggerSchema $swaggerSchema)
     {

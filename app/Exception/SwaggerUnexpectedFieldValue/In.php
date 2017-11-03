@@ -1,8 +1,8 @@
 <?php
 
-namespace Absolvent\swagger\Exception\SwaggerUnexpectedFieldValue;
+namespace Newride\swagger\Exception\SwaggerUnexpectedFieldValue;
 
-use Absolvent\swagger\Exception\SwaggerUnexpectedFieldValue;
+use Newride\swagger\Exception\SwaggerUnexpectedFieldValue;
 
 class In extends SwaggerUnexpectedFieldValue
 {

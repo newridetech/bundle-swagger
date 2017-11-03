@@ -1,10 +1,10 @@
 <?php
 
-namespace Absolvent\swagger\tests\Unit;
+namespace Newride\swagger\tests\Unit;
 
-use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
-use Absolvent\swagger\SwaggerSchema;
-use Absolvent\swagger\SwaggerSchemaRequestMethods;
+use Newride\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
+use Newride\swagger\SwaggerSchema;
+use Newride\swagger\SwaggerSchemaRequestMethods;
 use PHPUnit\Framework\TestCase;
 
 class SwaggerSchemaRequestMethodsTest extends TestCase
@@ -16,7 +16,7 @@ class SwaggerSchemaRequestMethodsTest extends TestCase
 
     /**
      * @depends testThatSwaggerEmptySchemaIsCreated
-     * @expectedException \Absolvent\swagger\Exception\SchemaPartNotFound
+     * @expectedException \Newride\swagger\Exception\SchemaPartNotFound
      */
     public function testThatEmptySchemaIsHandled(SwaggerSchema $swaggerSchema)
     {
@@ -32,7 +32,7 @@ class SwaggerSchemaRequestMethodsTest extends TestCase
 
     /**
      * @depends testThatSwaggerEmptyPathsSchemaIsCreated
-     * @expectedException \Absolvent\swagger\Exception\SchemaPartIsEmpty
+     * @expectedException \Newride\swagger\Exception\SchemaPartIsEmpty
      */
     public function testThatEmptyPathsSchemaIsHandled(SwaggerSchema $swaggerSchema)
     {

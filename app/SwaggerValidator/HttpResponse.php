@@ -1,11 +1,11 @@
 <?php
 
-namespace Absolvent\swagger\SwaggerValidator;
+namespace Newride\swagger\SwaggerValidator;
 
-use Absolvent\swagger\JsonSchemaValidatorBuilder;
-use Absolvent\swagger\SwaggerSchema;
-use Absolvent\swagger\SwaggerValidationResult;
-use Absolvent\swagger\SwaggerValidator;
+use Newride\swagger\JsonSchemaValidatorBuilder;
+use Newride\swagger\SwaggerSchema;
+use Newride\swagger\SwaggerValidationResult;
+use Newride\swagger\SwaggerValidator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Absolvent\swagger;
+namespace Newride\swagger;
 
-use Absolvent\swagger\Breadcrumbs\RequestPath as RequestPathBreadcrumbs;
-use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
-use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod\ResponsePath as ResponsePathBreadcrumbs;
-use Absolvent\swagger\Breadcrumbs\RequestPath\RequestMethod\RequestParameters as RequestParametersBreadcrumbs;
-use Absolvent\swagger\Exception\SchemaPartNotFound;
-use Absolvent\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
+use Newride\swagger\Breadcrumbs\RequestPath as RequestPathBreadcrumbs;
+use Newride\swagger\Breadcrumbs\RequestPath\RequestMethod as RequestMethodBreadcrumbs;
+use Newride\swagger\Breadcrumbs\RequestPath\RequestMethod\ResponsePath as ResponsePathBreadcrumbs;
+use Newride\swagger\Breadcrumbs\RequestPath\RequestMethod\RequestParameters as RequestParametersBreadcrumbs;
+use Newride\swagger\Exception\SchemaPartNotFound;
+use Newride\swagger\JsonSchema\RequestParameters as RequestParametersSchema;
 use Dflydev\DotAccessData\Data;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Absolvent\swagger;
+namespace Newride\swagger;
 
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Constraints\Factory;
