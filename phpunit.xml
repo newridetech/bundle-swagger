@@ -24,8 +24,8 @@
         </whitelist>
     </filter>
     <logging>
-        <!--<log type="coverage-clover" target="./analytics/coverage.xml" charset="UTF-8"/>-->
-        <log type="coverage-html" target="./analytics/coverage" charset="UTF-8"/>
+        <log type="junit" target="./test_results/junit.xml"/>
+        <log type="coverage-html" target="./test_results/coverage" charset="UTF-8"/>
     </logging>
     <php>
         <env name="APP_ENV" value="testing"/>
