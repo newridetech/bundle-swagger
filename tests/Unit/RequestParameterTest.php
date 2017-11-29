@@ -68,7 +68,7 @@ class RequestParameterTest extends TestCase
      * @dataProvider provideRequestParameters
      * @param Request $request
      * @param stdClass $requestParameterSchema
-     * @param $expectedValue
+     * @param mixed $expectedValue
      */
     public function testThatQueryParameterDataIsObtained(Request $request, stdClass $requestParameterSchema, $expectedValue)
     {

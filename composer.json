@@ -10,6 +10,7 @@
         "justinrainbow/json-schema": "^5.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "^1.0",
+        "phpstan/phpstan": "^0.9",
         "symfony/yaml": "^3.2"
     },
     "require-dev": {

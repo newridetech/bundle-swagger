@@ -27,11 +27,6 @@ $app = new Illuminate\Foundation\Application(
 */
 
 $app->singleton(
-    Illuminate\Contracts\Http\Kernel::class,
-    Newride\swagger\Http\Kernel::class
-);
-
-$app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     Newride\swagger\Console\Kernel::class
 );
