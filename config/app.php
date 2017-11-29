@@ -172,10 +172,10 @@ return [
          * Application Service Providers...
          */
         Newride\swagger\Providers\AppServiceProvider::class,
-        Newride\swagger\Providers\AuthServiceProvider::class,
+        // Newride\swagger\Providers\AuthServiceProvider::class,
         // Newride\swagger\Providers\BroadcastServiceProvider::class,
         Newride\swagger\Providers\EventServiceProvider::class,
-        Newride\swagger\Providers\RouteServiceProvider::class,
+        // Newride\swagger\Providers\RouteServiceProvider::class,
 
     ],
 
