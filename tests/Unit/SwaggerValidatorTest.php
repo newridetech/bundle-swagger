@@ -188,11 +188,12 @@ class SwaggerValidatorTest extends TestCase
 
     /**
      * @dataProvider provideRequestResponse
-     * @param string $fixtureFilename
-     * @param Request $request
-     * @param bool $isRequestValid
+     *
+     * @param string   $fixtureFilename
+     * @param Request  $request
+     * @param bool     $isRequestValid
      * @param Response $response
-     * @param bool $isResponseValid
+     * @param bool     $isResponseValid
      */
     public function testThatDataIsValidated(string $fixtureFilename, Request $request, bool $isRequestValid, Response $response, bool $isResponseValid)
     {

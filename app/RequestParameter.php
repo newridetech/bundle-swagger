@@ -52,6 +52,7 @@ class RequestParameter
     {
         $fileParameters = $this->request->files->all();
         $dataParameters = $this->request->request->all();
+
         return new ParameterBag(array_merge($fileParameters, $dataParameters));
     }
 

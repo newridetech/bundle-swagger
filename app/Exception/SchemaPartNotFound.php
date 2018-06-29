@@ -11,7 +11,7 @@ class SchemaPartNotFound extends BadRequestHttpException
     public $breadcrumbs;
     public $filename;
 
-    public function __construct(Breadcrumbs $breadcrumbs, string $filename, Exception $previous = null, $code = null)
+    public function __construct(Breadcrumbs $breadcrumbs, string $filename, Exception $previous = null, int $code = 0)
     {
         parent::__construct(static::createMessage($breadcrumbs, $filename), $previous, $code);
 

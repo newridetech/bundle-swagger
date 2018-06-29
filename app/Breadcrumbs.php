@@ -6,7 +6,7 @@ class Breadcrumbs
 {
     public $breadcrumbs;
 
-    public static function fromBreadcrumbs(Breadcrumbs $breadcrumbs): Breadcrumbs
+    public static function fromBreadcrumbs(self $breadcrumbs): self
     {
         return new static($breadcrumbs->breadcrumbs);
     }

@@ -20,14 +20,14 @@ class SwaggerSchema extends Data
      */
     public $filename;
 
-    public static function fromFilename(string $filename): SwaggerSchema
+    public static function fromFilename(string $filename): self
     {
         $schema = Yaml::parse(file_get_contents($filename));
 
         return new static($schema, $filename);
     }
 
-    public static function fromSchema($schema, $filename): SwaggerSchema
+    public static function fromSchema($schema, $filename): self
     {
         return new static(json_decode(json_encode($schema), true), $filename);
     }

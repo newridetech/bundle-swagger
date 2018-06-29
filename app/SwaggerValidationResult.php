@@ -19,12 +19,12 @@ class SwaggerValidationResult
         ]);
     }
 
-    public static function fromJsonSchemaValidator(Validator $validator): SwaggerValidationResult
+    public static function fromJsonSchemaValidator(Validator $validator): self
     {
         return static::empty()->appendFromJsonSchemaValidator($validator);
     }
 
-    public static function fromJsonSchemaValidatorList(array $jsonSchemaValidatorList): SwaggerValidationResult
+    public static function fromJsonSchemaValidatorList(array $jsonSchemaValidatorList): self
     {
         return array_reduce($jsonSchemaValidatorList, function (SwaggerValidationResult $carry, Validator $jsonSchemaValidator) {
             return $carry->appendFromJsonSchemaValidator($jsonSchemaValidator);
@@ -37,7 +37,7 @@ class SwaggerValidationResult
         $this->isValid = $validationResult['isValid'];
     }
 
-    public function appendFromJsonSchemaValidator(Validator $validator): SwaggerValidationResult
+    public function appendFromJsonSchemaValidator(Validator $validator): self
     {
         $next = clone $this;
         $errors = $validator->getErrors();

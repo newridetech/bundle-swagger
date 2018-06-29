@@ -33,7 +33,7 @@ class RequestParameterTest extends TestCase
             'expectedValue' => 'bar',
         ];
 
-         yield 'plain post request' => [
+        yield 'plain post request' => [
              'request' => Request::create('http://example.com/api/pets', 'POST', [], [], [], [], json_encode([
                  'foo' => 'bar',
              ])),
@@ -49,7 +49,7 @@ class RequestParameterTest extends TestCase
                 'http://example.com/api/pets',
                 'POST',
                 $parameters = [
-                    'foo' => 'bar'
+                    'foo' => 'bar',
                 ],
                 $cookies = [],
                 $files = [],
@@ -66,9 +66,10 @@ class RequestParameterTest extends TestCase
 
     /**
      * @dataProvider provideRequestParameters
-     * @param Request $request
+     *
+     * @param Request  $request
      * @param stdClass $requestParameterSchema
-     * @param mixed $expectedValue
+     * @param mixed    $expectedValue
      */
     public function testThatQueryParameterDataIsObtained(Request $request, stdClass $requestParameterSchema, $expectedValue)
     {

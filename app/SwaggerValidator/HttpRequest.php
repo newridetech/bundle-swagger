@@ -43,7 +43,8 @@ class HttpRequest extends SwaggerValidator
 
     /**
      * @param \JsonSchema\Validator $validator
-     * @param stdClass $requestParameterSchema
+     * @param stdClass              $requestParameterSchema
+     *
      * @return mixed
      */
     private function validateRequestParameterSchema($validator, stdClass $requestParameterSchema)
@@ -54,7 +55,7 @@ class HttpRequest extends SwaggerValidator
 
         $required = $this->getIsRequired($requestParameterSchema);
 
-        if ($required || $data !== null) {
+        if ($required || null !== $data) {
             if ($this->isParamFile($requestParameterSchema)) {
                 if (!$data instanceof UploadedFile) {
                     $validator->addErrors([
@@ -70,7 +71,7 @@ class HttpRequest extends SwaggerValidator
             } else {
                 if ($this->isParamFormDataObject($requestParameterSchema, $data)) {
                     $jsonDecoded = json_decode($data, true);
-                    if ($jsonDecoded !== null) {
+                    if (null !== $jsonDecoded) {
                         $this->request->request->set($requestParameterSchema->name, $jsonDecoded);
                         $data = json_decode($data);
                     }
@@ -90,12 +91,13 @@ class HttpRequest extends SwaggerValidator
         if ($jsonSchema->{'$ref'} ?? null) {
             $jsonSchema = $this->schema->getByRef($jsonSchema->{'$ref'});
         }
-        return $requestParameterSchema->in === 'formData' && ($jsonSchema->type ?? null) === 'object' && is_string($data);
+
+        return 'formData' === $requestParameterSchema->in && 'object' === ($jsonSchema->type ?? null) && is_string($data);
     }
 
     private function isParamFile($requestParameterSchema): bool
     {
-        return ($requestParameterSchema->type ?? null) === 'file';
+        return 'file' === ($requestParameterSchema->type ?? null);
     }
 
     private function getJsonSchema($requestParameterSchema)
